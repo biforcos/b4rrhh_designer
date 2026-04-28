@@ -6,6 +6,24 @@ const GRID_COLS = 4
 const NODE_WIDTH = 160
 const NODE_HEIGHT = 120
 
+const OPERAND_STROKE: Record<string, string> = {
+  qty:  '#38bdf8',
+  rate: '#fbbf24',
+  base: '#a78bfa',
+  pct:  '#f472b6',
+}
+
+// Backend OperandRole enum uses QUANTITY/PERCENTAGE; frontend handles use qty/pct
+const ROLE_TO_HANDLE: Record<string, string> = {
+  QUANTITY:   'qty',
+  RATE:       'rate',
+  BASE:       'base',
+  PERCENTAGE: 'pct',
+  // tolerate values saved before this mapping was in place
+  QTY:        'qty',
+  PCT:        'pct',
+}
+
 export function useConceptGraph(ruleSystemCode: string) {
   return useQuery({
     queryKey: ['concepts', ruleSystemCode],
@@ -33,11 +51,14 @@ export function useConceptGraph(ruleSystemCode: string) {
       const edges: ConceptFlowEdge[] = []
       concepts.forEach((c, i) => {
         allOperands[i].forEach(op => {
+          const role = ROLE_TO_HANDLE[op.operandRole] ?? op.operandRole.toLowerCase()
           edges.push({
             id: `op-${op.sourceObjectCode}-${c.conceptCode}-${op.operandRole}`,
             source: op.sourceObjectCode,
+            sourceHandle: 'out',
             target: c.conceptCode,
-            targetHandle: op.operandRole.toLowerCase(),
+            targetHandle: role,
+            style: { stroke: OPERAND_STROKE[role] ?? '#64748b', strokeWidth: 1.5 },
             data: { operandRole: op.operandRole },
           })
         })
@@ -45,6 +66,7 @@ export function useConceptGraph(ruleSystemCode: string) {
           edges.push({
             id: `feed-${feed.sourceObjectCode}-${c.conceptCode}`,
             source: feed.sourceObjectCode,
+            sourceHandle: 'out',
             target: c.conceptCode,
             targetHandle: 'feed',
             style: feed.invertSign ? { stroke: '#f87171' } : { stroke: '#4ade80' },

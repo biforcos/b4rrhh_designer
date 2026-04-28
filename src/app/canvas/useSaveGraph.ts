@@ -3,6 +3,14 @@ import { conceptsApi } from './api/conceptsApi'
 import type { ConceptFlowNode, ConceptFlowEdge, CalculationType } from './types'
 import { INPUT_PORTS } from './types'
 
+// Map frontend handle names back to backend OperandRole enum values
+const HANDLE_TO_ROLE: Record<string, string> = {
+  qty:  'QUANTITY',
+  rate: 'RATE',
+  base: 'BASE',
+  pct:  'PERCENTAGE',
+}
+
 export function useSaveGraph(ruleSystemCode: string) {
   const qc = useQueryClient()
 
@@ -25,10 +33,13 @@ export function useSaveGraph(ruleSystemCode: string) {
         } else if (requiredPorts.length > 0) {
           const operands = edges
             .filter(e => e.target === node.id)
-            .map(e => ({
-              operandRole: (e.targetHandle ?? '').toUpperCase(),
-              sourceObjectCode: e.source,
-            }))
+            .map(e => {
+              const handle = e.targetHandle ?? ''
+              return {
+                operandRole: HANDLE_TO_ROLE[handle] ?? handle.toUpperCase(),
+                sourceObjectCode: e.source,
+              }
+            })
             .filter(o => o.operandRole)
           await conceptsApi.replaceOperands(ruleSystemCode, node.id, operands)
         }

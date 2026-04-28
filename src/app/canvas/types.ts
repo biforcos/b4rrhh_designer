@@ -1,6 +1,6 @@
 import type { Node, Edge } from '@xyflow/react'
 
-export type CalculationType = 'DIRECT_AMOUNT' | 'RATE_BY_QUANTITY' | 'PERCENTAGE' | 'AGGREGATE' | 'JAVA_PROVIDED'
+export type CalculationType = 'DIRECT_AMOUNT' | 'RATE_BY_QUANTITY' | 'PERCENTAGE' | 'AGGREGATE' | 'JAVA_PROVIDED' | 'EMPLOYEE_INPUT'
 export type FunctionalNature = 'EARNING' | 'DEDUCTION' | 'BASE' | 'INFORMATIONAL' | 'TECHNICAL' | 'TOTAL_EARNING' | 'TOTAL_DEDUCTION' | 'NET_PAY'
 export type ResultCompositionMode = 'REPLACE' | 'ACCUMULATE'
 export type ExecutionScope = 'SEGMENT' | 'PERIOD'
@@ -19,6 +19,7 @@ export type ConceptFlowEdge = Edge<{ operandRole?: string; invertSign?: boolean 
 export const INPUT_PORTS: Record<CalculationType, string[]> = {
   DIRECT_AMOUNT: [],
   JAVA_PROVIDED: [],
+  EMPLOYEE_INPUT: [], // no input handles; reads from employee data
   RATE_BY_QUANTITY: ['qty', 'rate'],
   PERCENTAGE: ['base', 'pct'],
   AGGREGATE: ['feed'],
@@ -45,6 +46,7 @@ export const PORT_LABEL_COLORS: Record<string, string> = {
 export const TYPE_BADGE_COLORS: Record<CalculationType, string> = {
   DIRECT_AMOUNT:    'bg-slate-800 text-slate-400',
   JAVA_PROVIDED:    'bg-slate-800 text-slate-400',
+  EMPLOYEE_INPUT:   'bg-teal-950 text-teal-400',
   RATE_BY_QUANTITY: 'bg-sky-950 text-sky-400',
   PERCENTAGE:       'bg-violet-950 text-violet-400',
   AGGREGATE:        'bg-green-950 text-green-400',
