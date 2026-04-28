@@ -1,11 +1,9 @@
+import { authStore } from '../auth/authStore'
+
 const BASE_URL = '/api'
 
-function getToken(): string | null {
-  return localStorage.getItem('jwt_token')
-}
-
 export async function apiFetch<T>(path: string, options: RequestInit = {}): Promise<T> {
-  const token = getToken()
+  const token = authStore.getToken()
   const res = await fetch(`${BASE_URL}${path}`, {
     ...options,
     headers: {

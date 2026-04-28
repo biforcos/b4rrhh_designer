@@ -1,5 +1,6 @@
-import { NavLink } from 'react-router-dom'
-import { Network, List, ClipboardList, Settings } from 'lucide-react'
+import { NavLink, useNavigate } from 'react-router-dom'
+import { Network, List, ClipboardList, LogOut } from 'lucide-react'
+import { authStore } from '../../auth/authStore'
 
 const NAV_ITEMS = [
   { to: '/canvas', icon: Network, label: 'Canvas' },
@@ -8,6 +9,13 @@ const NAV_ITEMS = [
 ]
 
 export function NavSidebar() {
+  const navigate = useNavigate()
+
+  function handleLogout() {
+    authStore.clear()
+    navigate('/login', { replace: true })
+  }
+
   return (
     <nav className="w-11 bg-slate-900 border-r border-slate-800 flex flex-col items-center py-3 gap-1 flex-shrink-0">
       <div className="text-sky-400 text-lg font-bold mb-3">⬡</div>
@@ -24,13 +32,14 @@ export function NavSidebar() {
         </NavLink>
       ))}
       <div className="flex-1" />
-      <NavLink
-        to="/settings"
-        title="Ajustes"
-        className="w-8 h-8 rounded-md flex items-center justify-center text-slate-600 hover:text-slate-400"
+      <button
+        type="button"
+        onClick={handleLogout}
+        title={`Cerrar sesión (${authStore.getSubject() ?? ''})`}
+        className="w-8 h-8 rounded-md flex items-center justify-center text-slate-600 hover:text-red-400 hover:bg-slate-800 transition-colors"
       >
-        <Settings size={16} />
-      </NavLink>
+        <LogOut size={16} />
+      </button>
     </nav>
   )
 }
