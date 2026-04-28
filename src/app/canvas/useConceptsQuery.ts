@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 import { conceptsApi } from './api/conceptsApi'
-import type { ConceptFlowNode, ConceptFlowEdge } from './types'
+import type { ConceptFlowNode, ConceptFlowEdge, CalculationType, FunctionalNature } from './types'
 
 const GRID_COLS = 4
 const NODE_WIDTH = 160
@@ -25,8 +25,8 @@ export function useConceptGraph(ruleSystemCode: string) {
         data: {
           conceptCode: c.conceptCode,
           conceptMnemonic: c.conceptMnemonic,
-          calculationType: c.calculationType as any,
-          functionalNature: c.functionalNature as any,
+          calculationType: c.calculationType as CalculationType,
+          functionalNature: c.functionalNature as FunctionalNature,
         },
       }))
 

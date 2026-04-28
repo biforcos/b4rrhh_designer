@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { ReactFlow, Background, MiniMap, Controls, addEdge, useNodesState, useEdgesState, type Connection } from '@xyflow/react'
 import '@xyflow/react/dist/style.css'
 import { ConceptNode } from './nodes/ConceptNode'
@@ -10,9 +10,16 @@ const RULE_SYSTEM = 'ESP'
 
 export function CanvasPage() {
   const { data, isLoading } = useConceptGraph(RULE_SYSTEM)
-  const [nodes, _setNodes, onNodesChange] = useNodesState<ConceptFlowNode>(data?.nodes ?? [])
-  const [edges, setEdges, onEdgesChange] = useEdgesState<ConceptFlowEdge>(data?.edges ?? [])
+  const [nodes, setNodes, onNodesChange] = useNodesState<ConceptFlowNode>([])
+  const [edges, setEdges, onEdgesChange] = useEdgesState<ConceptFlowEdge>([])
   const [selectedNode, setSelectedNode] = useState<ConceptFlowNode | null>(null)
+
+  useEffect(() => {
+    if (data) {
+      setNodes(data.nodes)
+      setEdges(data.edges)
+    }
+  }, [data, setNodes, setEdges])
 
   const onConnect = useCallback(
     (params: Connection) => setEdges(eds => addEdge({ ...params, id: `e-${params.source}-${params.target}-${params.targetHandle}` }, eds)),
