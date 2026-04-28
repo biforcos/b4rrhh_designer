@@ -3,7 +3,6 @@ import { type ConceptFlowNode, INPUT_PORTS, PORT_COLORS, PORT_LABEL_COLORS, TYPE
 
 export function ConceptNode({ data, selected }: NodeProps<ConceptFlowNode>) {
   const inputPorts = INPUT_PORTS[data.calculationType]
-  const isMultiPort = data.calculationType === 'AGGREGATE'
 
   return (
     <div className={`
@@ -26,12 +25,12 @@ export function ConceptNode({ data, selected }: NodeProps<ConceptFlowNode>) {
         {/* Input ports */}
         {inputPorts.length > 0 && (
           <div className="mt-1.5 flex flex-col gap-1">
-            {inputPorts.map((port, i) => (
+            {inputPorts.map((port) => (
               <div key={port} className="flex items-center gap-1 relative">
                 <Handle
                   type="target"
                   position={Position.Left}
-                  id={isMultiPort ? `${port}-${i}` : port}
+                  id={port}
                   title={port}
                   className={`!w-2.5 !h-2.5 !border-2 !-left-3 ${PORT_COLORS[port]}`}
                   style={{ top: 'auto', transform: 'none' }}

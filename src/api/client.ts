@@ -1,15 +1,16 @@
 const BASE_URL = '/api'
 
-function getToken(): string {
-  return localStorage.getItem('jwt_token') ?? ''
+function getToken(): string | null {
+  return localStorage.getItem('jwt_token')
 }
 
 export async function apiFetch<T>(path: string, options: RequestInit = {}): Promise<T> {
+  const token = getToken()
   const res = await fetch(`${BASE_URL}${path}`, {
     ...options,
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${getToken()}`,
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
       ...options.headers,
     },
   })

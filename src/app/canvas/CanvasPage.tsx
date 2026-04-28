@@ -58,7 +58,7 @@ export function CanvasPage() {
           onNodesChange={onNodesChange}
           onEdgesChange={onEdgesChange}
           onConnect={onConnect}
-          onNodeClick={(_, node) => setSelectedNode(node as ConceptFlowNode)}
+          onNodeClick={(_, node) => { if (node.type === 'concept') setSelectedNode(node as ConceptFlowNode) }}
           nodeTypes={nodeTypes}
           fitView
           colorMode="dark"
