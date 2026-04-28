@@ -33,6 +33,15 @@ export const PORT_COLORS: Record<string, string> = {
   out:  'border-slate-400 bg-slate-700',
 }
 
+export const PORT_LABEL_COLORS: Record<string, string> = {
+  qty:  'text-sky-400',
+  rate: 'text-amber-400',
+  base: 'text-violet-400',
+  pct:  'text-pink-400',
+  feed: 'text-green-400',
+  out:  'text-slate-400',
+}
+
 export const TYPE_BADGE_COLORS: Record<CalculationType, string> = {
   DIRECT_AMOUNT:    'bg-slate-800 text-slate-400',
   JAVA_PROVIDED:    'bg-slate-800 text-slate-400',

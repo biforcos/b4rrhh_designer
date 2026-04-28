@@ -15,6 +15,9 @@ describe('ConceptNode', () => {
         selected={false}
         type="concept"
         dragging={false}
+        draggable={true}
+        selectable={true}
+        deletable={true}
         zIndex={0}
         isConnectable={true}
         positionAbsoluteX={0}
@@ -30,8 +33,8 @@ describe('ConceptNode', () => {
       <ConceptNode
         id="101"
         data={{ conceptCode: '101', conceptMnemonic: 'SB', calculationType: 'RATE_BY_QUANTITY', functionalNature: 'EARNING' }}
-        selected={false} type="concept" dragging={false} zIndex={0} isConnectable={true}
-        positionAbsoluteX={0} positionAbsoluteY={0}
+        selected={false} type="concept" dragging={false} draggable={true} selectable={true} deletable={true}
+        zIndex={0} isConnectable={true} positionAbsoluteX={0} positionAbsoluteY={0}
       />
     ))
     expect(screen.getByTitle('qty')).toBeInTheDocument()
@@ -43,10 +46,22 @@ describe('ConceptNode', () => {
       <ConceptNode
         id="d01"
         data={{ conceptCode: 'D01', conceptMnemonic: 'DIAS', calculationType: 'JAVA_PROVIDED', functionalNature: 'TECHNICAL' }}
-        selected={false} type="concept" dragging={false} zIndex={0} isConnectable={true}
-        positionAbsoluteX={0} positionAbsoluteY={0}
+        selected={false} type="concept" dragging={false} draggable={true} selectable={true} deletable={true}
+        zIndex={0} isConnectable={true} positionAbsoluteX={0} positionAbsoluteY={0}
       />
     ))
     expect(screen.queryByTitle('qty')).not.toBeInTheDocument()
+  })
+
+  it('muestra puerto feed para AGGREGATE', () => {
+    render(wrapInProvider(
+      <ConceptNode
+        id="agg"
+        data={{ conceptCode: 'AGG', conceptMnemonic: 'TOTAL', calculationType: 'AGGREGATE', functionalNature: 'TOTAL_EARNING' }}
+        selected={false} type="concept" dragging={false} draggable={true} selectable={true} deletable={true}
+        zIndex={0} isConnectable={true} positionAbsoluteX={0} positionAbsoluteY={0}
+      />
+    ))
+    expect(screen.getByTitle('feed')).toBeInTheDocument()
   })
 })

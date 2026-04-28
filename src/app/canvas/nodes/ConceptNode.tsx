@@ -1,13 +1,7 @@
-import { Handle, Position } from '@xyflow/react'
-import { type ConceptNodeData, INPUT_PORTS, PORT_COLORS, TYPE_BADGE_COLORS } from '../types'
+import { Handle, Position, type NodeProps } from '@xyflow/react'
+import { type ConceptFlowNode, INPUT_PORTS, PORT_COLORS, PORT_LABEL_COLORS, TYPE_BADGE_COLORS } from '../types'
 
-interface ConceptNodeProps {
-  data: ConceptNodeData
-  selected: boolean
-  [key: string]: unknown
-}
-
-export function ConceptNode({ data, selected }: ConceptNodeProps) {
+export function ConceptNode({ data, selected }: NodeProps<ConceptFlowNode>) {
   const inputPorts = INPUT_PORTS[data.calculationType]
   const isMultiPort = data.calculationType === 'AGGREGATE'
 
@@ -42,7 +36,7 @@ export function ConceptNode({ data, selected }: ConceptNodeProps) {
                   className={`!w-2.5 !h-2.5 !border-2 !-left-3 ${PORT_COLORS[port]}`}
                   style={{ top: 'auto', transform: 'none' }}
                 />
-                <span className={`text-[9px] font-medium ml-1 ${PORT_COLORS[port].split(' ')[0].replace('border', 'text')}`}>{port}</span>
+                <span className={`text-[9px] font-medium ml-1 ${PORT_LABEL_COLORS[port]}`}>{port}</span>
               </div>
             ))}
           </div>
