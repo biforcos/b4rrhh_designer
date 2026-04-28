@@ -4,6 +4,8 @@ import '@xyflow/react/dist/style.css'
 import { ConceptNode } from './nodes/ConceptNode'
 import { useConceptGraph } from './useConceptsQuery'
 import type { ConceptFlowNode, ConceptFlowEdge } from './types'
+import { CreateConceptDrawer } from './CreateConceptDrawer'
+import { useSaveGraph } from './useSaveGraph'
 
 const nodeTypes = { concept: ConceptNode }
 const RULE_SYSTEM = 'ESP'
@@ -13,6 +15,8 @@ export function CanvasPage() {
   const [nodes, setNodes, onNodesChange] = useNodesState<ConceptFlowNode>([])
   const [edges, setEdges, onEdgesChange] = useEdgesState<ConceptFlowEdge>([])
   const [selectedNode, setSelectedNode] = useState<ConceptFlowNode | null>(null)
+  const [drawerOpen, setDrawerOpen] = useState(false)
+  const saveGraph = useSaveGraph(RULE_SYSTEM)
 
   useEffect(() => {
     if (data) {
@@ -31,6 +35,23 @@ export function CanvasPage() {
   return (
     <div className="flex h-full">
       <div className="flex-1 relative">
+        <div className="absolute top-2 right-2 z-10 flex gap-2">
+          <button
+            type="button"
+            onClick={() => setDrawerOpen(true)}
+            className="text-xs px-3 py-1.5 bg-slate-800 border border-slate-700 text-slate-300 rounded-md hover:bg-slate-700"
+          >
+            + Concepto
+          </button>
+          <button
+            type="button"
+            onClick={() => saveGraph.mutate({ nodes, edges })}
+            disabled={saveGraph.isPending}
+            className="text-xs px-3 py-1.5 bg-green-900 border border-green-700 text-green-300 rounded-md hover:bg-green-800 disabled:opacity-50"
+          >
+            {saveGraph.isPending ? 'Guardando...' : '↑ Guardar'}
+          </button>
+        </div>
         <ReactFlow
           nodes={nodes}
           edges={edges}
@@ -46,6 +67,11 @@ export function CanvasPage() {
           <MiniMap className="!bg-slate-900" nodeColor="#334155" />
           <Controls className="!bg-slate-900 !border-slate-700" />
         </ReactFlow>
+        <CreateConceptDrawer
+          open={drawerOpen}
+          onClose={() => setDrawerOpen(false)}
+          ruleSystemCode={RULE_SYSTEM}
+        />
       </div>
 
       {selectedNode && (
