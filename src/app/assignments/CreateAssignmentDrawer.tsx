@@ -61,7 +61,7 @@ export function CreateAssignmentDrawer({ open, onClose, ruleSystemCode }: Props)
   return (
     <>
       <div className="fixed inset-0 z-40" onClick={onClose} />
-      <div className="fixed inset-y-0 right-0 z-50 flex w-80 flex-col bg-slate-900 border-l border-slate-800">
+      <div className="fixed inset-y-0 right-0 z-50 flex w-80 flex-col bg-slate-900 border-l border-slate-800" onClick={e => e.stopPropagation()}>
         <div className="p-4 border-b border-slate-800">
           <h2 className="text-base font-medium text-slate-200">Nueva asignación</h2>
         </div>
