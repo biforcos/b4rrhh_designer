@@ -27,6 +27,10 @@ beforeEach(() => {
   ])
 })
 
+afterEach(() => {
+  useRuleSystemStore.setState({ ruleSystemCode: 'ESP' })
+})
+
 it('shows current rule system code as badge', async () => {
   wrap(<NavSidebar />)
   await waitFor(() => expect(screen.getByTitle('Rule system: ESP')).toBeInTheDocument())
@@ -55,4 +59,13 @@ it('auto-selects first active system when stored code is not in list', async () 
   await waitFor(() =>
     expect(useRuleSystemStore.getState().ruleSystemCode).toBe('ESP')
   )
+})
+
+it('closes popover on outside pointer down', async () => {
+  wrap(<NavSidebar />)
+  await waitFor(() => screen.getByTitle('Rule system: ESP'))
+  fireEvent.click(screen.getByTitle('Rule system: ESP'))
+  expect(screen.getByText('España')).toBeInTheDocument()
+  fireEvent.pointerDown(document.body)
+  expect(screen.queryByText('España')).not.toBeInTheDocument()
 })
