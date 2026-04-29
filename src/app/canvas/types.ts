@@ -10,6 +10,9 @@ export interface ConceptNodeData extends Record<string, unknown> {
   conceptMnemonic: string
   calculationType: CalculationType
   functionalNature: FunctionalNature
+  resultCompositionMode: ResultCompositionMode
+  executionScope: ExecutionScope
+  payslipOrderCode: string | null
   isDirty?: boolean
 }
 

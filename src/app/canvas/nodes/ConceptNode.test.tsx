@@ -2,6 +2,12 @@ import { render, screen } from '@testing-library/react'
 import { ReactFlowProvider } from '@xyflow/react'
 import { ConceptNode } from './ConceptNode'
 
+const BASE_DATA = {
+  resultCompositionMode: 'ACCUMULATE' as const,
+  executionScope: 'SEGMENT' as const,
+  payslipOrderCode: null,
+}
+
 const wrapInProvider = (ui: React.ReactElement) => (
   <ReactFlowProvider>{ui}</ReactFlowProvider>
 )
@@ -11,7 +17,7 @@ describe('ConceptNode', () => {
     render(wrapInProvider(
       <ConceptNode
         id="101"
-        data={{ conceptCode: '101', conceptMnemonic: 'SALARIO_BASE', calculationType: 'RATE_BY_QUANTITY', functionalNature: 'EARNING' }}
+        data={{ ...BASE_DATA, conceptCode: '101', conceptMnemonic: 'SALARIO_BASE', calculationType: 'RATE_BY_QUANTITY', functionalNature: 'EARNING' }}
         selected={false}
         type="concept"
         dragging={false}
@@ -32,7 +38,7 @@ describe('ConceptNode', () => {
     render(wrapInProvider(
       <ConceptNode
         id="101"
-        data={{ conceptCode: '101', conceptMnemonic: 'SB', calculationType: 'RATE_BY_QUANTITY', functionalNature: 'EARNING' }}
+        data={{ ...BASE_DATA, conceptCode: '101', conceptMnemonic: 'SB', calculationType: 'RATE_BY_QUANTITY', functionalNature: 'EARNING' }}
         selected={false} type="concept" dragging={false} draggable={true} selectable={true} deletable={true}
         zIndex={0} isConnectable={true} positionAbsoluteX={0} positionAbsoluteY={0}
       />
@@ -45,7 +51,7 @@ describe('ConceptNode', () => {
     render(wrapInProvider(
       <ConceptNode
         id="d01"
-        data={{ conceptCode: 'D01', conceptMnemonic: 'DIAS', calculationType: 'JAVA_PROVIDED', functionalNature: 'TECHNICAL' }}
+        data={{ ...BASE_DATA, conceptCode: 'D01', conceptMnemonic: 'DIAS', calculationType: 'JAVA_PROVIDED', functionalNature: 'TECHNICAL' }}
         selected={false} type="concept" dragging={false} draggable={true} selectable={true} deletable={true}
         zIndex={0} isConnectable={true} positionAbsoluteX={0} positionAbsoluteY={0}
       />
@@ -57,7 +63,7 @@ describe('ConceptNode', () => {
     render(wrapInProvider(
       <ConceptNode
         id="agg"
-        data={{ conceptCode: 'AGG', conceptMnemonic: 'TOTAL', calculationType: 'AGGREGATE', functionalNature: 'TOTAL_EARNING' }}
+        data={{ ...BASE_DATA, conceptCode: 'AGG', conceptMnemonic: 'TOTAL', calculationType: 'AGGREGATE', functionalNature: 'TOTAL_EARNING' }}
         selected={false} type="concept" dragging={false} draggable={true} selectable={true} deletable={true}
         zIndex={0} isConnectable={true} positionAbsoluteX={0} positionAbsoluteY={0}
       />
