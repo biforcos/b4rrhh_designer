@@ -1,0 +1,132 @@
+<h2>Panel de detalle — 3 enfoques</h2>
+<p class="subtitle">El panel lateral cuando seleccionas un nodo. Elige el que más te convence.</p>
+
+<style>
+.panels-row {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+.panel-mock {
+  background: #0f172a;
+  border: 1px solid #1e293b;
+  border-radius: 8px;
+  padding: 14px;
+  width: 180px;
+  font-size: 11px;
+  flex-shrink: 0;
+}
+.panel-mock .header { color: #38bdf8; font-weight: bold; margin-bottom: 2px; font-size: 11px; }
+.panel-mock .subheader { color: #475569; font-size: 9px; margin-bottom: 12px; }
+.panel-mock .field-label { color: #475569; font-size: 8px; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 2px; }
+.panel-mock .field-value { background: #020617; color: #cbd5e1; padding: 3px 6px; border-radius: 4px; font-size: 9px; margin-bottom: 8px; }
+.panel-mock .field-value.optional { color: #64748b; font-style: italic; }
+.panel-mock .divider { border: none; border-top: 1px solid #1e293b; margin: 10px 0; }
+.panel-mock .btn-delete { background: transparent; border: 1px solid #7f1d1d; color: #f87171; border-radius: 4px; padding: 4px 8px; font-size: 9px; width: 100%; cursor: pointer; text-align: center; }
+.panel-mock .btn-delete.disabled { border-color: #1e293b; color: #334155; cursor: not-allowed; }
+.panel-mock .btn-delete-confirm { background: #7f1d1d; border: 1px solid #991b1b; color: #fca5a5; border-radius: 4px; padding: 4px 8px; font-size: 9px; width: 100%; margin-top: 4px; text-align: center; }
+.panel-mock .btn-delete-cancel { background: transparent; border: 1px solid #1e293b; color: #64748b; border-radius: 4px; padding: 3px 8px; font-size: 9px; width: 100%; margin-top: 3px; text-align: center; }
+.panel-mock .dependents-note { color: #64748b; font-size: 8px; text-align: center; margin-top: 4px; }
+.panel-mock .deps-badge { display: inline-block; background: #1e3a5f; color: #7dd3fc; border-radius: 3px; padding: 1px 4px; font-size: 8px; margin-bottom: 8px; }
+.approach-label { font-size: 11px; font-weight: bold; color: #e2e8f0; margin-bottom: 6px; }
+.approach-desc { font-size: 10px; color: #94a3b8; margin-bottom: 10px; max-width: 180px; }
+.rec-badge { display: inline-block; background: #14532d; color: #4ade80; border-radius: 12px; padding: 1px 8px; font-size: 9px; margin-left: 6px; }
+.pros-cons { font-size: 9px; max-width: 180px; color: #94a3b8; margin-top: 6px; }
+.pros-cons .pro { color: #4ade80; }
+.pros-cons .con { color: #f87171; }
+</style>
+
+<div class="panels-row">
+
+  <!-- APPROACH A -->
+  <div class="option" data-choice="a" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <div class="approach-label">Inline directo</div>
+      <div class="approach-desc">Botón borrar activo/desactivado según dependencias. Sin confirmación.</div>
+      <div class="panel-mock">
+        <div class="header">SUELDO_BASE · SB</div>
+        <div class="subheader">PayrollConcept</div>
+        <div class="field-label">Tipo</div>
+        <div class="field-value">RATE_BY_QUANTITY</div>
+        <div class="field-label">Naturaleza</div>
+        <div class="field-value">EARNING</div>
+        <div class="field-label">Composición</div>
+        <div class="field-value">ACCUMULATE</div>
+        <div class="field-label">Ámbito</div>
+        <div class="field-value">SEGMENT</div>
+        <div class="field-label">Orden nómina</div>
+        <div class="field-value optional">— sin asignar</div>
+        <hr class="divider" />
+        <div class="btn-delete disabled">🗑 Borrar (tiene dependencias)</div>
+        <div class="dependents-note">Usado por 2 conceptos</div>
+      </div>
+      <div class="pros-cons">
+        <div class="pro">✓ Simple, sin sorpresas</div>
+        <div class="con">✗ Borrado sin red de seguridad</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- APPROACH B (recommended) -->
+  <div class="option" data-choice="b" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <div class="approach-label">Dos pasos inline <span class="rec-badge">recomendado</span></div>
+      <div class="approach-desc">Primer clic: aparece confirmación en el panel. Segundo clic: borra.</div>
+      <div class="panel-mock">
+        <div class="header">PLUS_TRANSPORTE · PT</div>
+        <div class="subheader">PayrollConcept</div>
+        <div class="field-label">Tipo</div>
+        <div class="field-value">DIRECT_AMOUNT</div>
+        <div class="field-label">Naturaleza</div>
+        <div class="field-value">EARNING</div>
+        <div class="field-label">Composición</div>
+        <div class="field-value">ACCUMULATE</div>
+        <div class="field-label">Ámbito</div>
+        <div class="field-value">PERIOD</div>
+        <div class="field-label">Orden nómina</div>
+        <div class="field-value">210</div>
+        <hr class="divider" />
+        <div class="btn-delete-confirm">⚠ Confirmar borrado</div>
+        <div class="btn-delete-cancel">Cancelar</div>
+      </div>
+      <div class="pros-cons">
+        <div class="pro">✓ Protege contra borrado accidental</div>
+        <div class="pro">✓ Sin modal/dialog — todo en el panel</div>
+        <div class="con">✗ Mínimamente más complejo</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- APPROACH C -->
+  <div class="option" data-choice="c" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content">
+      <div class="approach-label">Panel + Drawer de detalle</div>
+      <div class="approach-desc">Click en nodo abre un drawer derecho con toda la info (reemplaza el aside).</div>
+      <div class="panel-mock" style="background:#0f172a; border: 1px dashed #334155;">
+        <div style="color:#334155; font-size:9px; text-align:center; padding:20px 0;">
+          (canvas sin aside)<br/>
+          ↓<br/>
+          Click en nodo abre drawer →
+        </div>
+      </div>
+      <div style="background:#0f172a; border: 1px solid #1e293b; border-left: 2px solid #38bdf8; border-radius: 8px; padding: 10px; width: 140px; font-size: 9px; color: #94a3b8; margin-top: 6px;">
+        Drawer con todos los campos + sección borrar con confirmación
+      </div>
+      <div class="pros-cons">
+        <div class="pro">✓ Más espacio, patrón familiar</div>
+        <div class="con">✗ Extra interacción para ver info</div>
+        <div class="con">✗ Pierde visibilidad permanente</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="section" style="margin-top:24px; background:#1e293b; border-radius:6px; padding:12px; font-size:10px; color:#94a3b8;">
+  <strong style="color:#e2e8f0;">Bug de dropdowns:</strong> La causa es que el Drawer de vaul bloquea eventos de puntero fuera del drawer cuando está en modo modal. Fix: añadir <code style="color:#38bdf8;">modal={false}</code> al componente Drawer (sólo el drawer de creación). Independiente del enfoque elegido.
+</div>

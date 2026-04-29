@@ -21,6 +21,10 @@ export const assignmentsApi = {
     apiFetch<AssignmentDto>(`/payroll-engine/${ruleSystemCode}/assignments`, {
       method: 'POST', body: JSON.stringify(body),
     }),
+  update: (ruleSystemCode: string, assignmentCode: string, body: Omit<AssignmentDto, 'assignmentCode' | 'ruleSystemCode' | 'conceptCode'>) =>
+    apiFetch<AssignmentDto>(`/payroll-engine/${ruleSystemCode}/assignments/${assignmentCode}`, {
+      method: 'PUT', body: JSON.stringify(body),
+    }),
   delete: (ruleSystemCode: string, assignmentCode: string) =>
     apiFetch<void>(`/payroll-engine/${ruleSystemCode}/assignments/${assignmentCode}`, { method: 'DELETE' }),
 }

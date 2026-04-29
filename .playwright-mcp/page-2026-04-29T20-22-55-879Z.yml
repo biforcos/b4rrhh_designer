@@ -1,0 +1,10 @@
+- generic [ref=e4]:
+  - generic [ref=e5]:
+    - generic [ref=e6]: ⬡
+    - heading "Payroll Designer" [level=1] [ref=e7]
+    - paragraph [ref=e8]: Entorno local — introduce tu usuario
+  - generic [ref=e9]:
+    - generic [ref=e10]:
+      - generic [ref=e11]: Usuario
+      - textbox "bifor" [active] [ref=e12]
+    - button "Entrar" [disabled] [ref=e13]

@@ -1,0 +1,20 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(mvn test *)",
+      "Bash(npm test *)",
+      "Bash(npx vitest *)",
+      "Bash(npx vite *)",
+      "mcp__plugin_playwright_playwright__browser_fill_form",
+      "mcp__plugin_playwright_playwright__browser_snapshot",
+      "mcp__plugin_playwright_playwright__browser_click",
+      "mcp__plugin_playwright_playwright__browser_take_screenshot",
+      "mcp__plugin_playwright_playwright__browser_hover",
+      "Bash(npx tsc *)",
+      "Bash(xargs grep *)",
+      "Bash(npx ng *)",
+      "Bash(curl -s \"http://localhost:8080/payroll-engine/ESP/concepts\")",
+      "Bash(curl *)"
+    ]
+  }
+}

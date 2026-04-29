@@ -1,0 +1,313 @@
+- generic [ref=e3]:
+  - navigation [ref=e4]:
+    - generic [ref=e5]: ⬡
+    - link "Canvas" [ref=e6] [cursor=pointer]:
+      - /url: /canvas
+      - img [ref=e7]
+    - link "Objetos" [ref=e12] [cursor=pointer]:
+      - /url: /objects
+      - img [ref=e13]
+    - link "Asignaciones" [ref=e14] [cursor=pointer]:
+      - /url: /assignments
+      - img [ref=e15]
+    - button "Cerrar sesión (bifor)" [ref=e18]:
+      - img [ref=e19]
+  - main [ref=e22]:
+    - generic [ref=e24]:
+      - generic [ref=e25]:
+        - button "+ Concepto" [ref=e26]
+        - button "↑ Guardar" [ref=e27]
+        - button "Filtro ▾" [ref=e29]
+      - application [ref=e30]:
+        - generic [ref=e32]:
+          - generic:
+            - generic:
+              - img:
+                - group "Edge from D01 to 101" [ref=e33] [cursor=pointer]
+              - img:
+                - group "Edge from P01 to 101" [ref=e36] [cursor=pointer]
+              - img:
+                - group "Edge from H01 to 201" [ref=e39] [cursor=pointer]
+              - img:
+                - group "Edge from P01 to 201" [ref=e42] [cursor=pointer]
+              - img:
+                - group "Edge from B01 to 700" [ref=e45] [cursor=pointer]
+              - img:
+                - group "Edge from P_SS to 700" [ref=e48] [cursor=pointer]
+              - img:
+                - group "Edge from B02 to 800" [ref=e51] [cursor=pointer]
+              - img:
+                - group "Edge from P_IRPF to 800" [ref=e54] [cursor=pointer]
+              - img:
+                - group "Edge from 101 to 970" [ref=e57] [cursor=pointer]
+              - img:
+                - group "Edge from 201 to 970" [ref=e60] [cursor=pointer]
+              - img:
+                - group "Edge from 700 to 980" [ref=e63] [cursor=pointer]
+              - img:
+                - group "Edge from 800 to 980" [ref=e66] [cursor=pointer]
+              - img:
+                - group "Edge from 970 to 990" [ref=e69] [cursor=pointer]
+              - img:
+                - group "Edge from 980 to 990" [ref=e72] [cursor=pointer]
+              - img:
+                - group "Edge from 101 to B01" [ref=e75] [cursor=pointer]
+              - img:
+                - group "Edge from 201 to B01" [ref=e78] [cursor=pointer]
+              - img:
+                - group "Edge from 101 to B02" [ref=e81] [cursor=pointer]
+              - img:
+                - group "Edge from 201 to B02" [ref=e84] [cursor=pointer]
+              - img:
+                - group "Edge from J01 to P01" [ref=e87] [cursor=pointer]
+              - img:
+                - group "Edge from P02 to P01" [ref=e90] [cursor=pointer]
+            - generic:
+              - group [ref=e93]:
+                - generic [ref=e94]:
+                  - generic [ref=e96]: RATE×QTY
+                  - generic [ref=e97]:
+                    - generic [ref=e98]: "101"
+                    - generic [ref=e99]: SALARIO_BASE
+                    - generic [ref=e100]:
+                      - generic [ref=e101]:
+                        - generic "qty" [ref=e102]
+                        - generic [ref=e103]: qty
+                      - generic [ref=e104]:
+                        - generic "rate" [ref=e105]
+                        - generic [ref=e106]: rate
+                    - generic "out" [ref=e107]
+              - group [ref=e108]:
+                - generic [ref=e109]:
+                  - generic [ref=e111]: RATE×QTY
+                  - generic [ref=e112]:
+                    - generic [ref=e113]: "201"
+                    - generic [ref=e114]: hora_extra
+                    - generic [ref=e115]:
+                      - generic [ref=e116]:
+                        - generic "qty" [ref=e117]
+                        - generic [ref=e118]: qty
+                      - generic [ref=e119]:
+                        - generic "rate" [ref=e120]
+                        - generic [ref=e121]: rate
+                    - generic "out" [ref=e122]
+              - group [ref=e123]:
+                - generic [ref=e124]:
+                  - generic [ref=e126]: PERCENTAGE
+                  - generic [ref=e127]:
+                    - generic [ref=e128]: "700"
+                    - generic [ref=e129]: CUOTA_SS_OBRERA
+                    - generic [ref=e130]:
+                      - generic [ref=e131]:
+                        - generic "base" [ref=e132]
+                        - generic [ref=e133]: base
+                      - generic [ref=e134]:
+                        - generic "pct" [ref=e135]
+                        - generic [ref=e136]: pct
+                    - generic "out" [ref=e137]
+              - group [ref=e138]:
+                - generic [ref=e139]:
+                  - generic [ref=e141]: PERCENTAGE
+                  - generic [ref=e142]:
+                    - generic [ref=e143]: "800"
+                    - generic [ref=e144]: RETENCION_IRPF
+                    - generic [ref=e145]:
+                      - generic [ref=e146]:
+                        - generic "base" [ref=e147]
+                        - generic [ref=e148]: base
+                      - generic [ref=e149]:
+                        - generic "pct" [ref=e150]
+                        - generic [ref=e151]: pct
+                    - generic "out" [ref=e152]
+              - group [ref=e153]:
+                - generic [ref=e154]:
+                  - generic [ref=e156]: AGGREGATE
+                  - generic [ref=e157]:
+                    - generic [ref=e158]: "970"
+                    - generic [ref=e159]: TOTAL_DEVENGOS
+                    - generic [ref=e161]:
+                      - generic "feed" [ref=e162]
+                      - generic [ref=e163]: feed
+                    - generic "out" [ref=e164]
+              - group [ref=e165]:
+                - generic [ref=e166]:
+                  - generic [ref=e168]: AGGREGATE
+                  - generic [ref=e169]:
+                    - generic [ref=e170]: "980"
+                    - generic [ref=e171]: TOTAL_DEDUCCIONES
+                    - generic [ref=e173]:
+                      - generic "feed" [ref=e174]
+                      - generic [ref=e175]: feed
+                    - generic "out" [ref=e176]
+              - group [ref=e177]:
+                - generic [ref=e178]:
+                  - generic [ref=e180]: AGGREGATE
+                  - generic [ref=e181]:
+                    - generic [ref=e182]: "990"
+                    - generic [ref=e183]: LIQUIDO_A_PAGAR
+                    - generic [ref=e185]:
+                      - generic "feed" [ref=e186]
+                      - generic [ref=e187]: feed
+                    - generic "out" [ref=e188]
+              - group [ref=e189]:
+                - generic [ref=e190]:
+                  - generic [ref=e192]: AGGREGATE
+                  - generic [ref=e193]:
+                    - generic [ref=e194]: B01
+                    - generic [ref=e195]: BASE_COTIZABLE
+                    - generic [ref=e197]:
+                      - generic "feed" [ref=e198]
+                      - generic [ref=e199]: feed
+                    - generic "out" [ref=e200]
+              - group [ref=e201]:
+                - generic [ref=e202]:
+                  - generic [ref=e204]: AGGREGATE
+                  - generic [ref=e205]:
+                    - generic [ref=e206]: B02
+                    - generic [ref=e207]: BASE_IRPF
+                    - generic [ref=e209]:
+                      - generic "feed" [ref=e210]
+                      - generic [ref=e211]: feed
+                    - generic "out" [ref=e212]
+              - group [ref=e213]:
+                - generic [ref=e214]:
+                  - generic [ref=e216]: JAVA PROVIDED
+                  - generic [ref=e217]:
+                    - generic [ref=e218]: D01
+                    - generic [ref=e219]: DIAS_DEVENGO
+                    - generic "out" [ref=e220]
+              - group [ref=e221]:
+                - generic [ref=e222]:
+                  - generic [ref=e224]: JAVA PROVIDED
+                  - generic [ref=e225]:
+                    - generic [ref=e226]: D02
+                    - generic [ref=e227]: DIAS_MES_NOMINA
+                    - generic "out" [ref=e228]
+              - group [ref=e229]:
+                - generic [ref=e230]:
+                  - generic [ref=e232]: JAVA PROVIDED
+                  - generic [ref=e233]:
+                    - generic [ref=e234]: D03
+                    - generic [ref=e235]: DIAS_MES_REALES
+                    - generic "out" [ref=e236]
+              - group [ref=e237]:
+                - generic [ref=e238]:
+                  - generic [ref=e240]: EMPLOYEE INPUT
+                  - generic [ref=e241]:
+                    - generic [ref=e242]: H01
+                    - generic [ref=e243]: Numero_horas_extra
+                    - generic "out" [ref=e244]
+              - group [ref=e245]:
+                - generic [ref=e246]:
+                  - generic [ref=e248]: JAVA PROVIDED
+                  - generic [ref=e249]:
+                    - generic [ref=e250]: J01
+                    - generic [ref=e251]: COEFICIENTE_JORNADA
+                    - generic "out" [ref=e252]
+              - group [ref=e253]:
+                - generic [ref=e254]:
+                  - generic [ref=e256]: RATE×QTY
+                  - generic [ref=e257]:
+                    - generic [ref=e258]: P01
+                    - generic [ref=e259]: PRECIO_DIA
+                    - generic [ref=e260]:
+                      - generic [ref=e261]:
+                        - generic "qty" [ref=e262]
+                        - generic [ref=e263]: qty
+                      - generic [ref=e264]:
+                        - generic "rate" [ref=e265]
+                        - generic [ref=e266]: rate
+                    - generic "out" [ref=e267]
+              - group [ref=e268]:
+                - generic [ref=e269]:
+                  - generic [ref=e271]: DIRECT AMOUNT
+                  - generic [ref=e272]:
+                    - generic [ref=e273]: P02
+                    - generic [ref=e274]: PRECIO_DIA_PLENO
+                    - generic "out" [ref=e275]
+              - group [ref=e276]:
+                - generic [ref=e277]:
+                  - generic [ref=e279]: JAVA PROVIDED
+                  - generic [ref=e280]:
+                    - generic [ref=e281]: P_IRPF
+                    - generic [ref=e282]: TIPO_IRPF
+                    - generic "out" [ref=e283]
+              - group [ref=e284]:
+                - generic [ref=e285]:
+                  - generic [ref=e287]: JAVA PROVIDED
+                  - generic [ref=e288]:
+                    - generic [ref=e289]: P_SS
+                    - generic [ref=e290]: TIPO_SS
+                    - generic "out" [ref=e291]
+        - img
+        - img "Mini Map" [ref=e293]
+        - generic "Control Panel" [ref=e312]:
+          - button "Zoom In" [ref=e313] [cursor=pointer]:
+            - img [ref=e314]
+          - button "Zoom Out" [ref=e316] [cursor=pointer]:
+            - img [ref=e317]
+          - button "Fit View" [ref=e319] [cursor=pointer]:
+            - img [ref=e320]
+          - button "Toggle Interactivity" [ref=e322] [cursor=pointer]:
+            - img [ref=e323]
+        - button "? Leyenda" [ref=e327]
+        - link "React Flow attribution" [ref=e329] [cursor=pointer]:
+          - /url: https://reactflow.dev
+          - text: React Flow
+      - generic [ref=e332]:
+        - heading "Nuevo concepto" [level=2] [ref=e334]
+        - generic [ref=e335]:
+          - generic [ref=e336]:
+            - generic [ref=e337]: Código
+            - textbox [ref=e338]
+          - generic [ref=e339]:
+            - generic [ref=e340]: Mnemónico
+            - textbox [ref=e341]
+          - generic [ref=e342]:
+            - generic [ref=e343]: Tipo de cálculo
+            - combobox [expanded] [ref=e344]:
+              - generic [ref=e345]: RATE_BY_QUANTITY
+              - img: ▼
+            - listbox [ref=e373]:
+              - option "DIRECT_AMOUNT" [ref=e374]:
+                - generic [ref=e375]: DIRECT_AMOUNT
+              - option "RATE_BY_QUANTITY" [active] [selected] [ref=e376]:
+                - generic [ref=e377]: RATE_BY_QUANTITY
+                - generic:
+                  - img
+              - option "PERCENTAGE" [ref=e378]:
+                - generic [ref=e379]: PERCENTAGE
+              - option "AGGREGATE" [ref=e380]:
+                - generic [ref=e381]: AGGREGATE
+              - option "JAVA_PROVIDED" [ref=e382]:
+                - generic [ref=e383]: JAVA_PROVIDED
+              - option "EMPLOYEE_INPUT" [ref=e384]:
+                - generic [ref=e385]: EMPLOYEE_INPUT
+            - textbox [ref=e346]: RATE_BY_QUANTITY
+          - generic [ref=e347]:
+            - generic [ref=e348]: Naturaleza funcional
+            - combobox [ref=e349]:
+              - generic [ref=e350]: EARNING
+              - img: ▼
+            - textbox [ref=e351]: EARNING
+          - generic [ref=e352]:
+            - generic [ref=e353]: Composición de resultado
+            - combobox [ref=e354]:
+              - generic [ref=e355]: ACCUMULATE
+              - img: ▼
+            - textbox [ref=e356]: ACCUMULATE
+          - generic [ref=e357]:
+            - generic [ref=e358]: Ámbito de ejecución
+            - combobox [ref=e359]:
+              - generic [ref=e360]: SEGMENT
+              - img: ▼
+            - textbox [ref=e361]: SEGMENT
+          - generic [ref=e362]:
+            - checkbox "Persistir resultado" [checked] [ref=e363]
+            - generic [ref=e364] [cursor=pointer]: Persistir resultado
+          - generic [ref=e365]:
+            - generic [ref=e366]: Orden nómina (opcional)
+            - textbox [ref=e367]
+        - generic [ref=e368]:
+          - button "Crear concepto" [disabled]
+          - button "Cancelar" [ref=e369]

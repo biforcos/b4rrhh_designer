@@ -1,13 +1,15 @@
 import { useState } from 'react'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
-import { assignmentsApi } from './api/assignmentsApi'
+import { assignmentsApi, type AssignmentDto } from './api/assignmentsApi'
 import { useRuleSystemStore } from '../../ruleSystemStore'
 import { CreateAssignmentDrawer } from './CreateAssignmentDrawer'
+import { EditAssignmentDrawer } from './EditAssignmentDrawer'
 
 export function AssignmentsPage() {
   const { ruleSystemCode } = useRuleSystemStore()
   const qc = useQueryClient()
   const [drawerOpen, setDrawerOpen] = useState(false)
+  const [editTarget, setEditTarget] = useState<AssignmentDto | null>(null)
 
   const { data = [], isLoading } = useQuery({
     queryKey: ['assignments', ruleSystemCode],
@@ -58,7 +60,14 @@ export function AssignmentsPage() {
                 <td className="py-1.5 pr-3 text-slate-400">{a.validFrom}</td>
                 <td className="py-1.5 pr-3 text-slate-400">{a.validTo ?? '—'}</td>
                 <td className="py-1.5 pr-3 text-slate-400">{a.priority}</td>
-                <td className="py-1.5">
+                <td className="py-1.5 flex gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setEditTarget(a)}
+                    className="text-slate-400 hover:text-slate-200 text-[10px]"
+                  >
+                    ✎
+                  </button>
                   <button
                     type="button"
                     onClick={() => deleteMutation.mutate(a.assignmentCode)}
@@ -77,6 +86,12 @@ export function AssignmentsPage() {
         open={drawerOpen}
         onClose={() => setDrawerOpen(false)}
         ruleSystemCode={ruleSystemCode}
+      />
+      <EditAssignmentDrawer
+        open={editTarget !== null}
+        onClose={() => setEditTarget(null)}
+        ruleSystemCode={ruleSystemCode}
+        assignment={editTarget}
       />
     </div>
   )

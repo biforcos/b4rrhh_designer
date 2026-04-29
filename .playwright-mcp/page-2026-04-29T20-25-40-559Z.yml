@@ -1,0 +1,16 @@
+- generic [ref=e3]:
+  - navigation [ref=e4]:
+    - generic [ref=e5]: ⬡
+    - link "Canvas" [ref=e6] [cursor=pointer]:
+      - /url: /canvas
+      - img [ref=e7]
+    - link "Objetos" [ref=e12] [cursor=pointer]:
+      - /url: /objects
+      - img [ref=e13]
+    - link "Asignaciones" [ref=e14] [cursor=pointer]:
+      - /url: /assignments
+      - img [ref=e15]
+    - button "Cerrar sesión (bifor)" [ref=e18]:
+      - img [ref=e19]
+  - main [ref=e22]:
+    - generic [ref=e23]: Cargando grafo...
