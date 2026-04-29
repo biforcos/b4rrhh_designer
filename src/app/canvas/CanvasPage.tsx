@@ -9,32 +9,12 @@ import { CreateConceptDrawer } from './CreateConceptDrawer'
 import { useSaveGraph } from './useSaveGraph'
 import { CanvasLegend } from './CanvasLegend'
 import { savePositions } from './graphPositions'
+import { ConceptDetailPanel } from './ConceptDetailPanel'
+import { NATURE_LABELS, NATURE_COLORS } from './conceptLabels'
 
 const nodeTypes = { concept: ConceptNode }
 const edgeTypes = { deletable: DeletableEdge }
 const RULE_SYSTEM = 'ESP'
-
-const NATURE_LABELS: Record<FunctionalNature, string> = {
-  EARNING:          'Devengo',
-  DEDUCTION:        'Deducción',
-  BASE:             'Base',
-  INFORMATIONAL:    'Informativo',
-  TECHNICAL:        'Técnico',
-  TOTAL_EARNING:    'Total devengos',
-  TOTAL_DEDUCTION:  'Total deducciones',
-  NET_PAY:          'Líquido',
-}
-
-const NATURE_COLORS: Record<FunctionalNature, string> = {
-  EARNING:          'bg-sky-950 text-sky-400',
-  DEDUCTION:        'bg-red-950 text-red-400',
-  BASE:             'bg-violet-950 text-violet-400',
-  INFORMATIONAL:    'bg-amber-950 text-amber-400',
-  TECHNICAL:        'bg-slate-800 text-slate-400',
-  TOTAL_EARNING:    'bg-green-950 text-green-400',
-  TOTAL_DEDUCTION:  'bg-orange-950 text-orange-400',
-  NET_PAY:          'bg-emerald-950 text-emerald-400',
-}
 
 const ALL_NATURES = Object.keys(NATURE_LABELS) as FunctionalNature[]
 
@@ -196,24 +176,16 @@ export function CanvasPage() {
       </div>
 
       {selectedNode && (
-        <aside className="w-52 bg-slate-900 border-l border-slate-800 p-3 text-xs overflow-y-auto flex-shrink-0">
-          <div className="font-bold text-sky-400 mb-1">{selectedNode.data.conceptCode} · {selectedNode.data.conceptMnemonic}</div>
-          <div className="text-slate-500 text-[9px] mb-3">PayrollConcept</div>
-          <div className="space-y-2">
-            <Field label="Tipo" value={selectedNode.data.calculationType} />
-            <Field label="Naturaleza" value={NATURE_LABELS[selectedNode.data.functionalNature] ?? selectedNode.data.functionalNature} />
-          </div>
-        </aside>
+        <ConceptDetailPanel
+          node={selectedNode}
+          edges={edges}
+          ruleSystemCode={RULE_SYSTEM}
+          onDeleted={() => {
+            setNodes(ns => ns.filter(n => n.id !== selectedNode.id))
+            setSelectedNode(null)
+          }}
+        />
       )}
-    </div>
-  )
-}
-
-function Field({ label, value }: { label: string; value: string }) {
-  return (
-    <div>
-      <div className="text-slate-600 text-[9px] uppercase tracking-wide mb-0.5">{label}</div>
-      <div className="bg-slate-950 text-slate-300 px-1.5 py-0.5 rounded text-[10px]">{value}</div>
     </div>
   )
 }
