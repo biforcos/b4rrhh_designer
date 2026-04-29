@@ -5,6 +5,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { conceptsApi } from './api/conceptsApi'
+import { NATURE_LABELS, COMPOSITION_LABELS, SCOPE_LABELS } from './conceptLabels'
 
 interface Props { open: boolean; onClose: () => void; ruleSystemCode: string }
 
@@ -66,7 +67,7 @@ export function CreateConceptDrawer({ open, onClose, ruleSystemCode }: Props) {
                 <SelectValue />
               </SelectTrigger>
               <SelectContent className="bg-slate-900 border-slate-700">
-                {['DIRECT_AMOUNT', 'RATE_BY_QUANTITY', 'PERCENTAGE', 'AGGREGATE', 'JAVA_PROVIDED'].map(t => (
+                {(['DIRECT_AMOUNT', 'RATE_BY_QUANTITY', 'PERCENTAGE', 'AGGREGATE', 'JAVA_PROVIDED', 'EMPLOYEE_INPUT'] as const).map(t => (
                   <SelectItem key={t} value={t} className="text-slate-200">{t}</SelectItem>
                 ))}
               </SelectContent>
@@ -79,21 +80,35 @@ export function CreateConceptDrawer({ open, onClose, ruleSystemCode }: Props) {
                 <SelectValue />
               </SelectTrigger>
               <SelectContent className="bg-slate-900 border-slate-700">
-                {['EARNING', 'DEDUCTION', 'BASE', 'INFORMATIONAL', 'TECHNICAL', 'TOTAL_EARNING', 'TOTAL_DEDUCTION', 'NET_PAY'].map(n => (
-                  <SelectItem key={n} value={n} className="text-slate-200">{n}</SelectItem>
+                {(Object.entries(NATURE_LABELS) as [keyof typeof NATURE_LABELS, string][]).map(([value, label]) => (
+                  <SelectItem key={value} value={value} className="text-slate-200">{label}</SelectItem>
                 ))}
               </SelectContent>
             </Select>
           </div>
           <div>
-            <Label className="text-slate-400">Ámbito</Label>
+            <Label className="text-slate-400">Composición de resultado</Label>
+            <Select value={form.resultCompositionMode} onValueChange={v => { if (v) setForm(f => ({ ...f, resultCompositionMode: v })) }}>
+              <SelectTrigger className="w-full bg-slate-950 border-slate-700 text-slate-200 mt-1">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent className="bg-slate-900 border-slate-700">
+                {(Object.entries(COMPOSITION_LABELS) as [keyof typeof COMPOSITION_LABELS, string][]).map(([value, label]) => (
+                  <SelectItem key={value} value={value} className="text-slate-200">{label}</SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+          <div>
+            <Label className="text-slate-400">Ámbito de ejecución</Label>
             <Select value={form.executionScope} onValueChange={v => { if (v) setForm(f => ({ ...f, executionScope: v })) }}>
               <SelectTrigger className="w-full bg-slate-950 border-slate-700 text-slate-200 mt-1">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent className="bg-slate-900 border-slate-700">
-                <SelectItem value="SEGMENT" className="text-slate-200">SEGMENT</SelectItem>
-                <SelectItem value="PERIOD" className="text-slate-200">PERIOD</SelectItem>
+                {(Object.entries(SCOPE_LABELS) as [keyof typeof SCOPE_LABELS, string][]).map(([value, label]) => (
+                  <SelectItem key={value} value={value} className="text-slate-200">{label}</SelectItem>
+                ))}
               </SelectContent>
             </Select>
           </div>
