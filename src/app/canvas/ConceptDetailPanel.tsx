@@ -17,8 +17,8 @@ export function ConceptDetailPanel({ node, edges, ruleSystemCode, onDeleted }: P
   const [isError, setIsError] = useState(false)
   const qc = useQueryClient()
 
-  const hasDependents = edges.some(e => e.source === node.id)
   const dependentCount = edges.filter(e => e.source === node.id).length
+  const hasDependents = dependentCount > 0
 
   const handleConfirmDelete = () => {
     setIsPending(true)
@@ -26,6 +26,7 @@ export function ConceptDetailPanel({ node, edges, ruleSystemCode, onDeleted }: P
     const promise = conceptsApi.deleteConcept(ruleSystemCode, node.data.conceptCode)
     promise.then(() => {
       qc.invalidateQueries({ queryKey: ['concepts', ruleSystemCode] })
+      setIsPending(false)
       onDeleted()
     }).catch(() => {
       setIsPending(false)
