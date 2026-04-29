@@ -61,6 +61,11 @@ export function CanvasPage() {
     [setEdges]
   )
 
+  const handleDeleted = useCallback(() => {
+    setNodes(ns => ns.filter(n => n.id !== selectedNode!.id))
+    setSelectedNode(null)
+  }, [selectedNode, setNodes])
+
   function toggleNature(nature: FunctionalNature) {
     setFilterNatures(prev => {
       const next = new Set(prev)
@@ -180,10 +185,7 @@ export function CanvasPage() {
           node={selectedNode}
           edges={edges}
           ruleSystemCode={RULE_SYSTEM}
-          onDeleted={() => {
-            setNodes(ns => ns.filter(n => n.id !== selectedNode.id))
-            setSelectedNode(null)
-          }}
+          onDeleted={handleDeleted}
         />
       )}
     </div>
