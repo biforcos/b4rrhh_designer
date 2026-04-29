@@ -1,23 +1,37 @@
+import { useState } from 'react'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { assignmentsApi } from './api/assignmentsApi'
-
-const RULE_SYSTEM = 'ESP'
+import { useRuleSystemStore } from '../../ruleSystemStore'
+import { CreateAssignmentDrawer } from './CreateAssignmentDrawer'
 
 export function AssignmentsPage() {
+  const { ruleSystemCode } = useRuleSystemStore()
   const qc = useQueryClient()
+  const [drawerOpen, setDrawerOpen] = useState(false)
+
   const { data = [], isLoading } = useQuery({
-    queryKey: ['assignments', RULE_SYSTEM],
-    queryFn: () => assignmentsApi.list(RULE_SYSTEM),
+    queryKey: ['assignments', ruleSystemCode],
+    queryFn: () => assignmentsApi.list(ruleSystemCode),
   })
 
   const deleteMutation = useMutation({
-    mutationFn: (assignmentCode: string) => assignmentsApi.delete(RULE_SYSTEM, assignmentCode),
-    onSuccess: () => qc.invalidateQueries({ queryKey: ['assignments', RULE_SYSTEM] }),
+    mutationFn: (assignmentCode: string) => assignmentsApi.delete(ruleSystemCode, assignmentCode),
+    onSuccess: () => qc.invalidateQueries({ queryKey: ['assignments', ruleSystemCode] }),
   })
 
   return (
     <div className="p-4">
-      <h1 className="text-slate-200 font-semibold mb-4">Reglas de asignación</h1>
+      <div className="flex items-center justify-between mb-4">
+        <h1 className="text-slate-200 font-semibold">Reglas de asignación</h1>
+        <button
+          type="button"
+          onClick={() => setDrawerOpen(true)}
+          className="text-xs px-3 py-1.5 bg-slate-800 border border-slate-700 text-slate-300 rounded-md hover:bg-slate-700"
+        >
+          + Asignación
+        </button>
+      </div>
+
       {isLoading ? (
         <div className="text-slate-500 text-sm">Cargando...</div>
       ) : (
@@ -29,6 +43,7 @@ export function AssignmentsPage() {
               <th className="pb-2 pr-3">Convenio</th>
               <th className="pb-2 pr-3">Tipo emp.</th>
               <th className="pb-2 pr-3">Desde</th>
+              <th className="pb-2 pr-3">Hasta</th>
               <th className="pb-2 pr-3">Prioridad</th>
               <th className="pb-2" aria-label="Acciones"></th>
             </tr>
@@ -41,16 +56,28 @@ export function AssignmentsPage() {
                 <td className="py-1.5 pr-3 text-slate-500">{a.agreementCode ?? '*'}</td>
                 <td className="py-1.5 pr-3 text-slate-500">{a.employeeTypeCode ?? '*'}</td>
                 <td className="py-1.5 pr-3 text-slate-400">{a.validFrom}</td>
+                <td className="py-1.5 pr-3 text-slate-400">{a.validTo ?? '—'}</td>
                 <td className="py-1.5 pr-3 text-slate-400">{a.priority}</td>
                 <td className="py-1.5">
-                  <button type="button" onClick={() => deleteMutation.mutate(a.assignmentCode)}
-                    className="text-red-500 hover:text-red-400 text-[10px]">⊗</button>
+                  <button
+                    type="button"
+                    onClick={() => deleteMutation.mutate(a.assignmentCode)}
+                    className="text-red-500 hover:text-red-400 text-[10px]"
+                  >
+                    ⊗
+                  </button>
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
       )}
+
+      <CreateAssignmentDrawer
+        open={drawerOpen}
+        onClose={() => setDrawerOpen(false)}
+        ruleSystemCode={ruleSystemCode}
+      />
     </div>
   )
 }
