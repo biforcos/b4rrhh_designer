@@ -1,15 +1,16 @@
 import { useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { objectsApi } from './api/objectsApi'
+import { useRuleSystemStore } from '../../ruleSystemStore'
 
-const RULE_SYSTEM = 'ESP'
 type Tab = 'CONSTANT' | 'TABLE'
 
 export function ObjectsPage() {
+  const { ruleSystemCode } = useRuleSystemStore()
   const [tab, setTab] = useState<Tab>('CONSTANT')
   const { data = [], isLoading } = useQuery({
-    queryKey: ['objects', RULE_SYSTEM, tab],
-    queryFn: () => objectsApi.list(RULE_SYSTEM, tab),
+    queryKey: ['objects', ruleSystemCode, tab],
+    queryFn: () => objectsApi.list(ruleSystemCode, tab),
   })
 
   return (

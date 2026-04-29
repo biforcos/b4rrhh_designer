@@ -11,15 +11,16 @@ import { CanvasLegend } from './CanvasLegend'
 import { savePositions } from './graphPositions'
 import { ConceptDetailPanel } from './ConceptDetailPanel'
 import { NATURE_LABELS, NATURE_COLORS } from './conceptLabels'
+import { useRuleSystemStore } from '../../ruleSystemStore'
 
 const nodeTypes = { concept: ConceptNode }
 const edgeTypes = { deletable: DeletableEdge }
-const RULE_SYSTEM = 'ESP'
 
 const ALL_NATURES = Object.keys(NATURE_LABELS) as FunctionalNature[]
 
 export function CanvasPage() {
-  const { data, isLoading } = useConceptGraph(RULE_SYSTEM)
+  const { ruleSystemCode } = useRuleSystemStore()
+  const { data, isLoading } = useConceptGraph(ruleSystemCode)
   const [nodes, setNodes, onNodesChange] = useNodesState<ConceptFlowNode>([])
   const [edges, setEdges, onEdgesChange] = useEdgesState<ConceptFlowEdge>([])
   const [selectedNode, setSelectedNode] = useState<ConceptFlowNode | null>(null)
@@ -27,7 +28,7 @@ export function CanvasPage() {
   const [filterOpen, setFilterOpen] = useState(false)
   const [filterNatures, setFilterNatures] = useState<Set<FunctionalNature>>(new Set())
   const filterRef = useRef<HTMLDivElement>(null)
-  const saveGraph = useSaveGraph(RULE_SYSTEM)
+  const saveGraph = useSaveGraph(ruleSystemCode)
 
   useEffect(() => {
     if (data) {
@@ -49,8 +50,8 @@ export function CanvasPage() {
   }, [filterOpen])
 
   const onNodeDragStop = useCallback(() => {
-    savePositions(RULE_SYSTEM, nodes)
-  }, [nodes])
+    savePositions(ruleSystemCode, nodes)
+  }, [ruleSystemCode, nodes])
 
   const onConnect = useCallback(
     (params: Connection) => setEdges(eds => addEdge({
@@ -176,7 +177,7 @@ export function CanvasPage() {
         <CreateConceptDrawer
           open={drawerOpen}
           onClose={() => setDrawerOpen(false)}
-          ruleSystemCode={RULE_SYSTEM}
+          ruleSystemCode={ruleSystemCode}
         />
       </div>
 
@@ -184,7 +185,7 @@ export function CanvasPage() {
         <ConceptDetailPanel
           node={selectedNode}
           edges={edges}
-          ruleSystemCode={RULE_SYSTEM}
+          ruleSystemCode={ruleSystemCode}
           onDeleted={handleDeleted}
         />
       )}
