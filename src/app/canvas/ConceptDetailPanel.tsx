@@ -175,10 +175,11 @@ function Field({
       <div className="flex items-center gap-1 mb-0.5">
         <span className="text-slate-500 text-[9px] uppercase tracking-wide">{label}</span>
         <Tooltip>
-          <TooltipTrigger asChild>
-            <button type="button" className="text-slate-600 hover:text-slate-400 cursor-help flex-shrink-0" tabIndex={-1}>
-              <HelpCircle size={10} />
-            </button>
+          <TooltipTrigger
+            className="inline-flex items-center text-slate-600 hover:text-slate-400 cursor-help flex-shrink-0"
+            tabIndex={-1}
+          >
+            <HelpCircle size={10} />
           </TooltipTrigger>
           <TooltipContent side="left" className="max-w-[220px] text-[10px] leading-relaxed">
             {tooltip}
