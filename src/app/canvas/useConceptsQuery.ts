@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 import { conceptsApi } from './api/conceptsApi'
+import { loadPositions } from './graphPositions'
 import type { ConceptFlowNode, ConceptFlowEdge, CalculationType, FunctionalNature } from './types'
 
 const GRID_COLS = 4
@@ -36,10 +37,14 @@ export function useConceptGraph(ruleSystemCode: string) {
         concepts.map(c => conceptsApi.listFeeds(ruleSystemCode, c.conceptCode))
       )
 
+      const savedPositions = loadPositions(ruleSystemCode)
       const nodes: ConceptFlowNode[] = concepts.map((c, i) => ({
         id: c.conceptCode,
         type: 'concept' as const,
-        position: { x: (i % GRID_COLS) * (NODE_WIDTH + 40), y: Math.floor(i / GRID_COLS) * (NODE_HEIGHT + 40) },
+        position: savedPositions[c.conceptCode] ?? {
+          x: (i % GRID_COLS) * (NODE_WIDTH + 40),
+          y: Math.floor(i / GRID_COLS) * (NODE_HEIGHT + 40),
+        },
         data: {
           conceptCode: c.conceptCode,
           conceptMnemonic: c.conceptMnemonic,
@@ -54,6 +59,7 @@ export function useConceptGraph(ruleSystemCode: string) {
           const role = ROLE_TO_HANDLE[op.operandRole] ?? op.operandRole.toLowerCase()
           edges.push({
             id: `op-${op.sourceObjectCode}-${c.conceptCode}-${op.operandRole}`,
+            type: 'deletable',
             source: op.sourceObjectCode,
             sourceHandle: 'out',
             target: c.conceptCode,
@@ -65,11 +71,12 @@ export function useConceptGraph(ruleSystemCode: string) {
         allFeeds[i].forEach(feed => {
           edges.push({
             id: `feed-${feed.sourceObjectCode}-${c.conceptCode}`,
+            type: 'deletable',
             source: feed.sourceObjectCode,
             sourceHandle: 'out',
             target: c.conceptCode,
             targetHandle: 'feed',
-            style: feed.invertSign ? { stroke: '#f87171' } : { stroke: '#4ade80' },
+            style: feed.invertSign ? { stroke: '#f87171', strokeWidth: 1.5 } : { stroke: '#4ade80', strokeWidth: 1.5 },
             data: { invertSign: feed.invertSign },
           })
         })

@@ -2,13 +2,16 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { ReactFlow, Background, MiniMap, Controls, Panel, addEdge, useNodesState, useEdgesState, type Connection } from '@xyflow/react'
 import '@xyflow/react/dist/style.css'
 import { ConceptNode } from './nodes/ConceptNode'
+import { DeletableEdge } from './edges/DeletableEdge'
 import { useConceptGraph } from './useConceptsQuery'
 import type { ConceptFlowNode, ConceptFlowEdge, FunctionalNature } from './types'
 import { CreateConceptDrawer } from './CreateConceptDrawer'
 import { useSaveGraph } from './useSaveGraph'
 import { CanvasLegend } from './CanvasLegend'
+import { savePositions } from './graphPositions'
 
 const nodeTypes = { concept: ConceptNode }
+const edgeTypes = { deletable: DeletableEdge }
 const RULE_SYSTEM = 'ESP'
 
 const NATURE_LABELS: Record<FunctionalNature, string> = {
@@ -65,8 +68,16 @@ export function CanvasPage() {
     return () => document.removeEventListener('pointerdown', onPointerDown)
   }, [filterOpen])
 
+  const onNodeDragStop = useCallback(() => {
+    savePositions(RULE_SYSTEM, nodes)
+  }, [nodes])
+
   const onConnect = useCallback(
-    (params: Connection) => setEdges(eds => addEdge({ ...params, id: `e-${params.source}-${params.target}-${params.targetHandle}` }, eds)),
+    (params: Connection) => setEdges(eds => addEdge({
+      ...params,
+      id: `e-${params.source}-${params.target}-${params.targetHandle}`,
+      type: 'deletable',
+    }, eds)),
     [setEdges]
   )
 
@@ -163,7 +174,9 @@ export function CanvasPage() {
           onEdgesChange={onEdgesChange}
           onConnect={onConnect}
           onNodeClick={(_, node) => { if (node.type === 'concept') setSelectedNode(node as ConceptFlowNode) }}
+          onNodeDragStop={onNodeDragStop}
           nodeTypes={nodeTypes}
+          edgeTypes={edgeTypes}
           fitView
           colorMode="dark"
         >
