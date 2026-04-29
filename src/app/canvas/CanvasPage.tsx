@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { ReactFlow, Background, MiniMap, Controls, Panel, addEdge, useNodesState, useEdgesState, type Connection } from '@xyflow/react'
 import '@xyflow/react/dist/style.css'
 import { ConceptNode } from './nodes/ConceptNode'
@@ -12,6 +13,7 @@ import { savePositions } from './graphPositions'
 import { ConceptDetailPanel } from './ConceptDetailPanel'
 import { NATURE_LABELS, NATURE_COLORS } from './conceptLabels'
 import { useRuleSystemStore } from '../../ruleSystemStore'
+import { conceptsApi } from './api/conceptsApi'
 
 const nodeTypes = { concept: ConceptNode }
 const edgeTypes = { deletable: DeletableEdge }
@@ -20,6 +22,7 @@ const ALL_NATURES = Object.keys(NATURE_LABELS) as FunctionalNature[]
 
 export function CanvasPage() {
   const { ruleSystemCode } = useRuleSystemStore()
+  const queryClient = useQueryClient()
   const { data, isLoading } = useConceptGraph(ruleSystemCode)
   const [nodes, setNodes, onNodesChange] = useNodesState<ConceptFlowNode>([])
   const [edges, setEdges, onEdgesChange] = useEdgesState<ConceptFlowEdge>([])
@@ -28,7 +31,24 @@ export function CanvasPage() {
   const [filterOpen, setFilterOpen] = useState(false)
   const [filterNatures, setFilterNatures] = useState<Set<FunctionalNature>>(new Set())
   const filterRef = useRef<HTMLDivElement>(null)
+  const [summaryEditTarget, setSummaryEditTarget] = useState<string | null>(null)
+  const [summaryDraft, setSummaryDraft] = useState('')
   const saveGraph = useSaveGraph(ruleSystemCode)
+
+  const updateSummaryMutation = useMutation({
+    mutationFn: ({ conceptCode, summary }: { conceptCode: string; summary: string | null }) =>
+      conceptsApi.updateSummary(ruleSystemCode, conceptCode, summary),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['concepts', ruleSystemCode] })
+      setSummaryEditTarget(null)
+    },
+  })
+
+  const handleEditSummary = useCallback((conceptCode: string) => {
+    const node = nodes.find(n => n.id === conceptCode)
+    setSummaryDraft(node?.data.summary ?? '')
+    setSummaryEditTarget(conceptCode)
+  }, [nodes])
 
   useEffect(() => {
     if (data) {
@@ -76,12 +96,15 @@ export function CanvasPage() {
     })
   }
 
-  const displayNodes = useMemo(
-    () => filterNatures.size === 0
-      ? nodes
-      : nodes.map(n => ({ ...n, hidden: !filterNatures.has(n.data.functionalNature) })),
-    [nodes, filterNatures]
-  )
+  const displayNodes = useMemo(() => {
+    const withCallbacks = nodes.map(n => ({
+      ...n,
+      data: { ...n.data, onEditSummary: handleEditSummary },
+    }))
+    return filterNatures.size === 0
+      ? withCallbacks
+      : withCallbacks.map(n => ({ ...n, hidden: !filterNatures.has(n.data.functionalNature) }))
+  }, [nodes, filterNatures, handleEditSummary])
 
   if (isLoading) return <div className="flex items-center justify-center h-full text-slate-500">Cargando grafo...</div>
 
@@ -188,6 +211,45 @@ export function CanvasPage() {
           ruleSystemCode={ruleSystemCode}
           onDeleted={handleDeleted}
         />
+      )}
+
+      {summaryEditTarget && (
+        <>
+          <div className="fixed inset-0 z-50 bg-black/60" onClick={() => setSummaryEditTarget(null)} />
+          <div className="fixed z-50 left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-96 bg-slate-900 border border-slate-700 rounded-xl shadow-2xl p-4">
+            <p className="text-xs text-slate-400 mb-1">
+              Summary — <span className="font-mono text-slate-300">{summaryEditTarget}</span>
+            </p>
+            <textarea
+              className="w-full bg-slate-800 border border-slate-700 rounded-md text-xs text-slate-200 p-2 resize-none focus:outline-none focus:border-sky-500"
+              rows={4}
+              value={summaryDraft}
+              onChange={e => setSummaryDraft(e.target.value)}
+              placeholder="Descripción funcional del concepto..."
+              autoFocus
+            />
+            <div className="flex justify-end gap-2 mt-3">
+              <button
+                type="button"
+                onClick={() => setSummaryEditTarget(null)}
+                className="text-xs px-3 py-1.5 bg-slate-800 border border-slate-700 text-slate-300 rounded-md hover:bg-slate-700"
+              >
+                Cancelar
+              </button>
+              <button
+                type="button"
+                disabled={updateSummaryMutation.isPending}
+                onClick={() => updateSummaryMutation.mutate({
+                  conceptCode: summaryEditTarget,
+                  summary: summaryDraft.trim() || null,
+                })}
+                className="text-xs px-3 py-1.5 bg-sky-900 border border-sky-700 text-sky-300 rounded-md hover:bg-sky-800 disabled:opacity-50"
+              >
+                {updateSummaryMutation.isPending ? 'Guardando...' : 'Guardar'}
+              </button>
+            </div>
+          </div>
+        </>
       )}
     </div>
   )

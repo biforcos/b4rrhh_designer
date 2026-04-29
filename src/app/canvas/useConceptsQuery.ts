@@ -54,6 +54,7 @@ export function useConceptGraph(ruleSystemCode: string) {
           executionScope: c.executionScope as ExecutionScope,
           payslipOrderCode: c.payslipOrderCode ?? null,
           persistToConcepts: c.persistToConcepts,
+          summary: c.summary ?? null,
         },
       }))
 

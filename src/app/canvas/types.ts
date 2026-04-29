@@ -14,7 +14,9 @@ export interface ConceptNodeData extends Record<string, unknown> {
   executionScope: ExecutionScope
   payslipOrderCode: string | null
   persistToConcepts: boolean
+  summary: string | null
   isDirty?: boolean
+  onEditSummary?: (conceptCode: string) => void
 }
 
 export type ConceptFlowNode = Node<ConceptNodeData, 'concept'>

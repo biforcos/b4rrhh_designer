@@ -10,6 +10,7 @@ export interface ConceptDto {
   executionScope: string
   payslipOrderCode: string | null
   persistToConcepts: boolean
+  summary: string | null
 }
 
 export interface OperandDto { operandRole: string; sourceObjectCode: string }
@@ -28,6 +29,11 @@ export const conceptsApi = {
   createConcept: (ruleSystemCode: string, body: Omit<ConceptDto, 'ruleSystemCode'>) =>
     apiFetch<ConceptDto>(`/payroll-engine/${ruleSystemCode}/concepts`, {
       method: 'POST', body: JSON.stringify(body),
+    }),
+
+  updateSummary: (ruleSystemCode: string, conceptCode: string, summary: string | null) =>
+    apiFetch<ConceptDto>(`/payroll-engine/${ruleSystemCode}/concepts/${conceptCode}/summary`, {
+      method: 'PATCH', body: JSON.stringify({ summary }),
     }),
 
   deleteConcept: (ruleSystemCode: string, conceptCode: string) =>

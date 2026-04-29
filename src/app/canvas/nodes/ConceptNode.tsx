@@ -12,15 +12,29 @@ export function ConceptNode({ data, selected }: NodeProps<ConceptFlowNode>) {
     `}>
       {/* Header */}
       <div className="px-2 py-1 rounded-t-lg bg-slate-800/60 flex items-center gap-1">
-        <span className={`text-[9px] font-semibold px-1.5 py-0.5 rounded ${TYPE_BADGE_COLORS[data.calculationType]}`}>
+        <span className={`text-[9px] font-semibold px-1.5 py-0.5 rounded flex-1 ${TYPE_BADGE_COLORS[data.calculationType]}`}>
           {data.calculationType === 'RATE_BY_QUANTITY' ? 'RATE×QTY' : data.calculationType.replace('_', ' ')}
         </span>
+        {data.onEditSummary && (
+          <button
+            type="button"
+            onClick={e => { e.stopPropagation(); data.onEditSummary!(data.conceptCode) }}
+            className="text-[9px] text-slate-500 hover:text-slate-300 px-0.5"
+            title="Editar summary"
+          >
+            ✎
+          </button>
+        )}
       </div>
 
       {/* Body */}
       <div className="px-2 pb-2 pt-1">
         <div className="font-bold text-sm text-slate-100">{data.conceptCode}</div>
         <div className="text-slate-500 text-[9px]">{data.conceptMnemonic}</div>
+
+        {data.summary && (
+          <div className="text-slate-500 text-[9px] italic mt-0.5 line-clamp-2">{data.summary}</div>
+        )}
 
         {/* Input ports */}
         {inputPorts.length > 0 && (
