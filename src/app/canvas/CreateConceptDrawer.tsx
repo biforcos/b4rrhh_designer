@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerFooter } from '@/components/ui/drawer'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -32,13 +31,17 @@ export function CreateConceptDrawer({ open, onClose, ruleSystemCode }: Props) {
     },
   })
 
+  if (!open) return null
+
   return (
-    <Drawer open={open} onClose={onClose} direction="right" modal={false}>
-      <DrawerContent className="bg-slate-900 border-slate-800 h-full w-80 ml-auto mt-0 rounded-none" overlayClassName="pointer-events-none" onInteractOutside={(e) => e.preventDefault()}>
-        <DrawerHeader>
-          <DrawerTitle className="text-slate-200">Nuevo concepto</DrawerTitle>
-        </DrawerHeader>
-        <div className="px-4 space-y-3 text-sm">
+    <>
+      <div className="fixed inset-0 z-40" onClick={onClose} />
+      <div className="fixed inset-y-0 right-0 z-50 flex w-80 flex-col bg-slate-900 border-l border-slate-800">
+        <div className="p-4 border-b border-slate-800">
+          <h2 className="text-base font-medium text-slate-200">Nuevo concepto</h2>
+        </div>
+
+        <div className="flex-1 overflow-y-auto px-4 py-3 space-y-3 text-sm">
           <div>
             <Label className="text-slate-400">Código</Label>
             <Input
@@ -58,7 +61,7 @@ export function CreateConceptDrawer({ open, onClose, ruleSystemCode }: Props) {
           <div>
             <Label className="text-slate-400">Tipo de cálculo</Label>
             <Select value={form.calculationType} onValueChange={v => { if (v) setForm(f => ({ ...f, calculationType: v })) }}>
-              <SelectTrigger className="bg-slate-950 border-slate-700 text-slate-200 mt-1">
+              <SelectTrigger className="w-full bg-slate-950 border-slate-700 text-slate-200 mt-1">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent className="bg-slate-900 border-slate-700">
@@ -71,7 +74,7 @@ export function CreateConceptDrawer({ open, onClose, ruleSystemCode }: Props) {
           <div>
             <Label className="text-slate-400">Naturaleza funcional</Label>
             <Select value={form.functionalNature} onValueChange={v => { if (v) setForm(f => ({ ...f, functionalNature: v })) }}>
-              <SelectTrigger className="bg-slate-950 border-slate-700 text-slate-200 mt-1">
+              <SelectTrigger className="w-full bg-slate-950 border-slate-700 text-slate-200 mt-1">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent className="bg-slate-900 border-slate-700">
@@ -84,7 +87,7 @@ export function CreateConceptDrawer({ open, onClose, ruleSystemCode }: Props) {
           <div>
             <Label className="text-slate-400">Ámbito</Label>
             <Select value={form.executionScope} onValueChange={v => { if (v) setForm(f => ({ ...f, executionScope: v })) }}>
-              <SelectTrigger className="bg-slate-950 border-slate-700 text-slate-200 mt-1">
+              <SelectTrigger className="w-full bg-slate-950 border-slate-700 text-slate-200 mt-1">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent className="bg-slate-900 border-slate-700">
@@ -105,7 +108,8 @@ export function CreateConceptDrawer({ open, onClose, ruleSystemCode }: Props) {
             <div className="text-red-400 text-xs">Error al crear concepto</div>
           )}
         </div>
-        <DrawerFooter className="mt-auto">
+
+        <div className="p-4 border-t border-slate-800 flex flex-col gap-2">
           <Button
             onClick={() => mutation.mutate()}
             disabled={mutation.isPending || !form.conceptCode || !form.conceptMnemonic}
@@ -116,8 +120,8 @@ export function CreateConceptDrawer({ open, onClose, ruleSystemCode }: Props) {
           <Button variant="outline" onClick={onClose} className="w-full border-slate-700 text-slate-300">
             Cancelar
           </Button>
-        </DrawerFooter>
-      </DrawerContent>
-    </Drawer>
+        </div>
+      </div>
+    </>
   )
 }
