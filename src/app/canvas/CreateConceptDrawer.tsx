@@ -18,6 +18,7 @@ export function CreateConceptDrawer({ open, onClose, ruleSystemCode }: Props) {
     resultCompositionMode: 'ACCUMULATE',
     executionScope: 'SEGMENT',
     payslipOrderCode: '',
+    persistToConcepts: true,
   })
 
   const mutation = useMutation({
@@ -95,6 +96,17 @@ export function CreateConceptDrawer({ open, onClose, ruleSystemCode }: Props) {
                 <SelectItem value="PERIOD" className="text-slate-200">PERIOD</SelectItem>
               </SelectContent>
             </Select>
+          </div>
+          <div className="flex items-center gap-2 pt-1">
+            <input
+              id="persistToConcepts"
+              type="checkbox"
+              checked={form.persistToConcepts}
+              onChange={e => setForm(f => ({ ...f, persistToConcepts: e.target.checked }))}
+              title="Persistir resultado"
+              className="accent-sky-500 h-3.5 w-3.5"
+            />
+            <Label htmlFor="persistToConcepts" className="text-slate-400 cursor-pointer">Persistir resultado</Label>
           </div>
           <div>
             <Label className="text-slate-400">Orden nómina (opcional)</Label>

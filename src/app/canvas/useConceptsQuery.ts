@@ -53,6 +53,7 @@ export function useConceptGraph(ruleSystemCode: string) {
           resultCompositionMode: c.resultCompositionMode as ResultCompositionMode,
           executionScope: c.executionScope as ExecutionScope,
           payslipOrderCode: c.payslipOrderCode ?? null,
+          persistToConcepts: c.persistToConcepts,
         },
       }))
 

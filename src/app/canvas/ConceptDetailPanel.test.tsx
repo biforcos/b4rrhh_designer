@@ -48,7 +48,8 @@ describe('ConceptDetailPanel', () => {
         onDeleted={() => {}}
       />
     )
-    expect(screen.getByText('SB · SALARIO_BASE')).toBeInTheDocument()
+    expect(screen.getByText('SB')).toBeInTheDocument()
+    expect(screen.getByText('SALARIO_BASE')).toBeInTheDocument()
     expect(screen.getByText('RATE_BY_QUANTITY')).toBeInTheDocument()
     expect(screen.getByText('Devengo')).toBeInTheDocument()
     expect(screen.getByText('Acumula')).toBeInTheDocument()

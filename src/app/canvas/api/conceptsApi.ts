@@ -9,6 +9,7 @@ export interface ConceptDto {
   resultCompositionMode: string
   executionScope: string
   payslipOrderCode: string | null
+  persistToConcepts: boolean
 }
 
 export interface OperandDto { operandRole: string; sourceObjectCode: string }

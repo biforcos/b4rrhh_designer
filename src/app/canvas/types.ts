@@ -13,6 +13,7 @@ export interface ConceptNodeData extends Record<string, unknown> {
   resultCompositionMode: ResultCompositionMode
   executionScope: ExecutionScope
   payslipOrderCode: string | null
+  persistToConcepts: boolean
   isDirty?: boolean
 }
 
