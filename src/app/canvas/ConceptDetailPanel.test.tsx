@@ -112,4 +112,29 @@ describe('ConceptDetailPanel', () => {
     expect(conceptsApi.deleteConcept).toHaveBeenCalledWith('ESP', 'SB')
     await waitFor(() => expect(onDeleted).toHaveBeenCalled())
   })
+
+  it('muestra "Borrando..." en el botón durante el borrado', async () => {
+    // Make deleteConcept hang (never resolve) so we can check the in-flight state
+    let resolveFn!: () => void
+    ;(conceptsApi.deleteConcept as ReturnType<typeof vi.fn>).mockImplementationOnce(
+      () => new Promise<void>(resolve => { resolveFn = resolve })
+    )
+    wrap(
+      <ConceptDetailPanel node={makeNode()} edges={[]} ruleSystemCode="ESP" onDeleted={() => {}} />
+    )
+    fireEvent.click(screen.getByRole('button', { name: /borrar concepto/i }))
+    fireEvent.click(screen.getByRole('button', { name: /confirmar borrado/i }))
+    await waitFor(() => expect(screen.getByRole('button', { name: /borrando/i })).toBeInTheDocument())
+    resolveFn() // cleanup: let the promise resolve so no open handles
+  })
+
+  it('muestra error cuando deleteConcept falla', async () => {
+    ;(conceptsApi.deleteConcept as ReturnType<typeof vi.fn>).mockRejectedValueOnce(new Error('server error'))
+    wrap(
+      <ConceptDetailPanel node={makeNode()} edges={[]} ruleSystemCode="ESP" onDeleted={() => {}} />
+    )
+    fireEvent.click(screen.getByRole('button', { name: /borrar concepto/i }))
+    fireEvent.click(screen.getByRole('button', { name: /confirmar borrado/i }))
+    await waitFor(() => expect(screen.getByText(/error al borrar el concepto/i)).toBeInTheDocument())
+  })
 })
