@@ -33,7 +33,7 @@ export function CreateConceptDrawer({ open, onClose, ruleSystemCode }: Props) {
   })
 
   return (
-    <Drawer open={open} onClose={onClose} direction="right">
+    <Drawer open={open} onClose={onClose} direction="right" modal={false}>
       <DrawerContent className="bg-slate-900 border-slate-800 h-full w-80 ml-auto mt-0 rounded-none">
         <DrawerHeader>
           <DrawerTitle className="text-slate-200">Nuevo concepto</DrawerTitle>
