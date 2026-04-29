@@ -10,6 +10,7 @@ export function AssignmentsPage() {
   const qc = useQueryClient()
   const [drawerOpen, setDrawerOpen] = useState(false)
   const [editTarget, setEditTarget] = useState<AssignmentDto | null>(null)
+  const [deleteTarget, setDeleteTarget] = useState<AssignmentDto | null>(null)
 
   const { data = [], isLoading } = useQuery({
     queryKey: ['assignments', ruleSystemCode],
@@ -18,7 +19,10 @@ export function AssignmentsPage() {
 
   const deleteMutation = useMutation({
     mutationFn: (assignmentCode: string) => assignmentsApi.delete(ruleSystemCode, assignmentCode),
-    onSuccess: () => qc.invalidateQueries({ queryKey: ['assignments', ruleSystemCode] }),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ['assignments', ruleSystemCode] })
+      setDeleteTarget(null)
+    },
   })
 
   return (
@@ -70,7 +74,7 @@ export function AssignmentsPage() {
                   </button>
                   <button
                     type="button"
-                    onClick={() => deleteMutation.mutate(a.assignmentCode)}
+                    onClick={() => setDeleteTarget(a)}
                     className="text-red-500 hover:text-red-400 text-[10px]"
                   >
                     ⊗
@@ -93,6 +97,33 @@ export function AssignmentsPage() {
         ruleSystemCode={ruleSystemCode}
         assignment={editTarget}
       />
+
+      {deleteTarget && (
+        <>
+          <div className="fixed inset-0 z-50 bg-black/60" onClick={() => setDeleteTarget(null)} />
+          <div className="fixed z-50 left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-80 bg-slate-900 border border-slate-700 rounded-lg p-5 shadow-xl">
+            <p className="text-slate-200 text-sm font-medium mb-1">¿Eliminar asignación?</p>
+            <p className="text-slate-500 text-xs mb-4 font-mono">{deleteTarget.conceptCode}</p>
+            <div className="flex gap-2 justify-end">
+              <button
+                type="button"
+                onClick={() => setDeleteTarget(null)}
+                className="text-xs px-3 py-1.5 border border-slate-700 text-slate-300 rounded-md hover:bg-slate-800"
+              >
+                Cancelar
+              </button>
+              <button
+                type="button"
+                onClick={() => deleteMutation.mutate(deleteTarget.assignmentCode)}
+                disabled={deleteMutation.isPending}
+                className="text-xs px-3 py-1.5 bg-red-700 text-white rounded-md hover:bg-red-600 disabled:opacity-50"
+              >
+                {deleteMutation.isPending ? 'Eliminando...' : 'Eliminar'}
+              </button>
+            </div>
+          </div>
+        </>
+      )}
     </div>
   )
 }
