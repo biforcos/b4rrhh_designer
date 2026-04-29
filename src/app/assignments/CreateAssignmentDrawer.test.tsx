@@ -1,6 +1,7 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { vi } from 'vitest'
+import React from 'react'
 import { CreateAssignmentDrawer } from './CreateAssignmentDrawer'
 import { conceptsApi } from '../canvas/api/conceptsApi'
 import { assignmentsApi } from './api/assignmentsApi'
@@ -16,6 +17,56 @@ vi.mock('./api/assignmentsApi', () => ({
     delete: vi.fn(),
   },
 }))
+
+// Mock shadcn Select with a native <select> so fireEvent.change works in tests.
+// Select renders a native <select> forwarding id, aria-label, value and onChange.
+// SelectTrigger passes its id/aria-label up as data attributes on a wrapper div
+// so Select can pick them up, but the simplest approach is a shared context.
+vi.mock('@/components/ui/select', () => {
+  type SelectCtx = { id?: string; ariaLabel?: string; onValueChange: (v: string) => void; value: string }
+  const SelectContext = React.createContext<SelectCtx>({ onValueChange: () => {}, value: '' })
+
+  function Select({ value, onValueChange, children }: { value: string; onValueChange: (v: string) => void; children: React.ReactNode }) {
+    return (
+      <SelectContext.Provider value={{ onValueChange, value }}>
+        {children}
+      </SelectContext.Provider>
+    )
+  }
+
+  function SelectTrigger({ id, 'aria-label': ariaLabel, children }: { id?: string; 'aria-label'?: string; children?: React.ReactNode }) {
+    const ctx = React.useContext(SelectContext)
+    // Store id/ariaLabel on context for SelectContent to use
+    ctx.id = id
+    ctx.ariaLabel = ariaLabel
+    return null
+  }
+
+  function SelectValue(_props: { placeholder?: string }) {
+    return null
+  }
+
+  function SelectContent({ children }: { children: React.ReactNode }) {
+    const ctx = React.useContext(SelectContext)
+    return (
+      <select
+        id={ctx.id}
+        aria-label={ctx.ariaLabel}
+        title={ctx.ariaLabel}
+        value={ctx.value}
+        onChange={e => ctx.onValueChange(e.target.value)}
+      >
+        {children}
+      </select>
+    )
+  }
+
+  function SelectItem({ value, children }: { value: string; children: React.ReactNode }) {
+    return <option value={value}>{children}</option>
+  }
+
+  return { Select, SelectTrigger, SelectValue, SelectContent, SelectItem }
+})
 
 function wrap(ui: React.ReactElement) {
   const qc = new QueryClient({ defaultOptions: { queries: { retry: false }, mutations: { retry: false } } })

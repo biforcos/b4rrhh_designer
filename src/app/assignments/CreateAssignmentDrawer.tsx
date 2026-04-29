@@ -1,8 +1,9 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { conceptsApi } from '../canvas/api/conceptsApi'
 import { assignmentsApi } from './api/assignmentsApi'
 
@@ -12,17 +13,23 @@ interface Props {
   ruleSystemCode: string
 }
 
+const initialForm = {
+  conceptCode: '',
+  companyCode: '',
+  agreementCode: '',
+  employeeTypeCode: '',
+  validFrom: '',
+  validTo: '',
+  priority: '',
+}
+
 export function CreateAssignmentDrawer({ open, onClose, ruleSystemCode }: Props) {
   const qc = useQueryClient()
-  const [form, setForm] = useState({
-    conceptCode: '',
-    companyCode: '',
-    agreementCode: '',
-    employeeTypeCode: '',
-    validFrom: '',
-    validTo: '',
-    priority: '',
-  })
+  const [form, setForm] = useState(initialForm)
+
+  useEffect(() => {
+    if (!open) setForm(initialForm)
+  }, [open])
 
   const { data: concepts = [] } = useQuery({
     queryKey: ['concepts', ruleSystemCode],
@@ -62,20 +69,22 @@ export function CreateAssignmentDrawer({ open, onClose, ruleSystemCode }: Props)
         <div className="flex-1 overflow-y-auto px-4 py-3 space-y-3 text-sm">
           <div>
             <Label htmlFor="conceptCode" className="text-slate-400">Concepto</Label>
-            <select
-              id="conceptCode"
-              aria-label="Concepto"
-              value={form.conceptCode}
-              onChange={e => setForm(f => ({ ...f, conceptCode: e.target.value }))}
-              className="mt-1 w-full bg-slate-950 border border-slate-700 text-slate-200 text-sm rounded-md px-2 py-1.5 focus:outline-none focus:ring-1 focus:ring-sky-600"
-            >
-              <option value="">— selecciona un concepto —</option>
-              {concepts.map(c => (
-                <option key={c.conceptCode} value={c.conceptCode}>
-                  {c.conceptCode} — {c.conceptMnemonic}
-                </option>
-              ))}
-            </select>
+            <Select value={form.conceptCode} onValueChange={v => setForm(f => ({ ...f, conceptCode: v }))}>
+              <SelectTrigger
+                id="conceptCode"
+                aria-label="Concepto"
+                className="bg-slate-950 border-slate-700 text-slate-200 mt-1"
+              >
+                <SelectValue placeholder="— selecciona un concepto —" />
+              </SelectTrigger>
+              <SelectContent>
+                {concepts.map(c => (
+                  <SelectItem key={c.conceptCode} value={c.conceptCode}>
+                    {c.conceptCode} — {c.conceptMnemonic}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
 
           <div>
