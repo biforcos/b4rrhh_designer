@@ -14,7 +14,7 @@ export function CreateTableModal({ ruleSystemCode, onClose }: Props) {
   const mutation = useMutation({
     mutationFn: () => tableRowsApi.createTable(ruleSystemCode, objectCode.trim()),
     onSuccess: () => {
-      qc.invalidateQueries({ queryKey: ['objects', ruleSystemCode] })
+      qc.invalidateQueries({ queryKey: ['objects', ruleSystemCode, 'TABLE'] })
       onClose()
     },
   })

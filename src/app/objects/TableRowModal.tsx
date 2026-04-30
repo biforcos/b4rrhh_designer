@@ -69,7 +69,8 @@ export function TableRowModal({ ruleSystemCode, tableCode, row, onClose }: Props
     },
   })
 
-  const isValid = form.searchCode && form.startDate && form.monthlyValue && form.annualValue && form.dailyValue && form.hourlyValue
+  const isValidNum = (s: string) => s !== '' && !Number.isNaN(parseFloat(s))
+  const isValid = form.searchCode.trim() && form.startDate && isValidNum(form.monthlyValue) && isValidNum(form.annualValue) && isValidNum(form.dailyValue) && isValidNum(form.hourlyValue)
 
   return (
     <>

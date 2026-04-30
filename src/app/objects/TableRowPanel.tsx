@@ -12,7 +12,7 @@ interface Props {
 export function TableRowPanel({ ruleSystemCode, tableCode }: Props) {
   const qc = useQueryClient()
   const { data: rows = [], isLoading } = useTableRows(ruleSystemCode, tableCode)
-  const [modalRow, setModalRow] = useState<TableRowDto | null | 'new'>(undefined as never)
+  const [modalRow, setModalRow] = useState<TableRowDto | null | 'new' | undefined>(undefined)
   const [deleteTarget, setDeleteTarget] = useState<TableRowDto | null>(null)
 
   const deleteMutation = useMutation({
@@ -99,7 +99,7 @@ export function TableRowPanel({ ruleSystemCode, tableCode }: Props) {
           ruleSystemCode={ruleSystemCode}
           tableCode={tableCode}
           row={modalRow === 'new' ? null : modalRow}
-          onClose={() => setModalRow(undefined as never)}
+          onClose={() => setModalRow(undefined)}
         />
       )}
 
@@ -110,6 +110,9 @@ export function TableRowPanel({ ruleSystemCode, tableCode }: Props) {
           <div className="fixed z-50 left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-72 bg-slate-900 border border-slate-700 rounded-lg p-4 shadow-xl">
             <p className="text-slate-200 text-sm font-medium mb-1">¿Eliminar fila?</p>
             <p className="text-slate-500 text-xs font-mono mb-4">{deleteTarget.searchCode} · {deleteTarget.startDate}</p>
+            {deleteMutation.isError && (
+              <p className="text-red-400 text-[9px] mb-2">Error al eliminar la fila</p>
+            )}
             <div className="flex gap-2 justify-end">
               <button type="button" onClick={() => setDeleteTarget(null)}
                 className="text-xs px-3 py-1.5 border border-slate-700 text-slate-300 rounded-md hover:bg-slate-800">
