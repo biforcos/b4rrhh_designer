@@ -20,12 +20,14 @@ export function CreateConceptDrawer({ open, onClose, ruleSystemCode }: Props) {
     executionScope: 'SEGMENT',
     payslipOrderCode: '',
     persistToConcepts: true,
+    summary: '',
   })
 
   const mutation = useMutation({
     mutationFn: () => conceptsApi.createConcept(ruleSystemCode, {
       ...form,
       payslipOrderCode: form.payslipOrderCode || null,
+      summary: form.summary.trim() || null,
     }),
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: ['concepts', ruleSystemCode] })
@@ -129,6 +131,16 @@ export function CreateConceptDrawer({ open, onClose, ruleSystemCode }: Props) {
               className="bg-slate-950 border-slate-700 text-slate-200 mt-1"
               value={form.payslipOrderCode}
               onChange={e => setForm(f => ({ ...f, payslipOrderCode: e.target.value }))}
+            />
+          </div>
+          <div>
+            <Label className="text-slate-400">Summary (opcional)</Label>
+            <textarea
+              className="w-full bg-slate-950 border border-slate-700 text-slate-200 text-xs rounded-md px-2 py-1.5 mt-1 resize-none focus:outline-none focus:border-sky-500"
+              rows={3}
+              value={form.summary}
+              onChange={e => setForm(f => ({ ...f, summary: e.target.value }))}
+              placeholder="Descripción funcional del concepto..."
             />
           </div>
           {mutation.isError && (

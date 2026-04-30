@@ -1,5 +1,5 @@
-import { useState } from 'react'
-import { useQueryClient } from '@tanstack/react-query'
+import { useEffect, useState } from 'react'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { HelpCircle } from 'lucide-react'
 import { conceptsApi } from './api/conceptsApi'
 import { NATURE_LABELS, COMPOSITION_LABELS, SCOPE_LABELS } from './conceptLabels'
@@ -31,7 +31,20 @@ export function ConceptDetailPanel({ node, edges, ruleSystemCode, onDeleted }: P
   const [confirmDelete, setConfirmDelete] = useState(false)
   const [isPending, setIsPending] = useState(false)
   const [isError, setIsError] = useState(false)
+  const [summaryDraft, setSummaryDraft] = useState(node.data.summary ?? '')
   const qc = useQueryClient()
+
+  useEffect(() => {
+    setSummaryDraft(node.data.summary ?? '')
+  }, [node.id, node.data.summary])
+
+  const summaryMutation = useMutation({
+    mutationFn: (summary: string | null) =>
+      conceptsApi.updateSummary(ruleSystemCode, node.data.conceptCode, summary),
+    onSuccess: () => qc.invalidateQueries({ queryKey: ['concepts', ruleSystemCode] }),
+  })
+
+  const summaryChanged = summaryDraft.trim() !== (node.data.summary ?? '')
 
   const dependentCount = edges.filter(e => e.source === node.id).length
   const hasDependents = dependentCount > 0
@@ -102,6 +115,37 @@ export function ConceptDetailPanel({ node, edges, ruleSystemCode, onDeleted }: P
             value={d.persistToConcepts ? 'Sí' : 'No'}
             tooltip={FIELD_TOOLTIPS.persistToConcepts}
           />
+        </section>
+
+        {/* Section: summary */}
+        <section className="space-y-1.5">
+          <SectionHeader label="Summary" />
+          <textarea
+            className="w-full bg-slate-950 border border-slate-700 text-slate-300 text-[10px] rounded px-1.5 py-1 resize-none focus:outline-none focus:border-sky-600"
+            rows={3}
+            value={summaryDraft}
+            onChange={e => setSummaryDraft(e.target.value)}
+            placeholder="Descripción funcional..."
+          />
+          {summaryChanged && (
+            <div className="flex gap-1">
+              <button
+                type="button"
+                disabled={summaryMutation.isPending}
+                onClick={() => summaryMutation.mutate(summaryDraft.trim() || null)}
+                className="flex-1 text-[9px] bg-sky-900 border border-sky-700 text-sky-300 rounded px-2 py-0.5 hover:bg-sky-800 disabled:opacity-50"
+              >
+                {summaryMutation.isPending ? 'Guardando...' : 'Guardar'}
+              </button>
+              <button
+                type="button"
+                onClick={() => setSummaryDraft(node.data.summary ?? '')}
+                className="text-[9px] border border-slate-700 text-slate-400 rounded px-2 py-0.5 hover:bg-slate-800"
+              >
+                ✕
+              </button>
+            </div>
+          )}
         </section>
 
         {/* Delete */}
