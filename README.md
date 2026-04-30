@@ -71,3 +71,11 @@ export default defineConfig([
   },
 ])
 ```
+
+## License
+
+This project is source-available under a Business Source License (BSL).
+
+Commercial use is not permitted without explicit authorization.
+
+See LICENSE.md for details.
