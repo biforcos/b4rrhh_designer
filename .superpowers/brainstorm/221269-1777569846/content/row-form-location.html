@@ -1,0 +1,122 @@
+<h2>¿Dónde aparece el formulario de crear / editar fila?</h2>
+<p class="subtitle">Dentro del panel lateral de filas, al pulsar "+ Nueva fila" o el ✎ de editar</p>
+
+<div class="cards">
+
+  <div class="card" data-choice="a" onclick="toggleSelect(this)">
+    <div class="card-image" style="padding:10px; background:#0f172a; border-radius:6px;">
+      <div style="display:flex; gap:6px; height:220px;">
+        <!-- Objects list (mini) -->
+        <div style="width:100px; background:#1e293b; border-radius:4px; padding:6px; flex-shrink:0; font-size:8px; color:#64748b;">
+          <div style="margin-bottom:4px; color:#38bdf8;">PC_9900…</div>
+          <div style="color:#475569;">SB_9900…</div>
+        </div>
+        <!-- Row panel -->
+        <div style="flex:1; background:#1e293b; border-radius:4px; padding:6px; display:flex; flex-direction:column; gap:4px;">
+          <div style="font-size:9px; color:#38bdf8; font-weight:bold;">PC_99002405011982</div>
+          <!-- Existing rows dimmed -->
+          <div style="font-size:8px; color:#475569; opacity:0.5; border-bottom:1px solid #334155; padding-bottom:3px;">99002405-G1 · 320,00 €/mes</div>
+          <div style="font-size:8px; color:#475569; opacity:0.5; border-bottom:1px solid #334155; padding-bottom:3px;">99002405-G2 · 290,00 €/mes</div>
+          <!-- Inline form row at bottom -->
+          <div style="background:#0f172a; border:1px dashed #334155; border-radius:3px; padding:5px; margin-top:2px;">
+            <div style="font-size:8px; color:#64748b; margin-bottom:3px; text-transform:uppercase;">Nueva fila</div>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:3px; margin-bottom:3px;">
+              <div style="background:#1e293b; border-radius:2px; padding:2px 4px; font-size:8px; color:#64748b; border:1px solid #334155;">Código búsqueda</div>
+              <div style="background:#1e293b; border-radius:2px; padding:2px 4px; font-size:8px; color:#64748b; border:1px solid #334155;">Desde</div>
+              <div style="background:#1e293b; border-radius:2px; padding:2px 4px; font-size:8px; color:#64748b; border:1px solid #334155;">Mensual €</div>
+              <div style="background:#1e293b; border-radius:2px; padding:2px 4px; font-size:8px; color:#64748b; border:1px solid #334155;">Anual €</div>
+            </div>
+            <div style="display:flex; gap:3px;">
+              <div style="flex:1; background:#14532d; border-radius:2px; padding:2px 5px; font-size:8px; color:#86efac; text-align:center; border:1px solid #166534;">Guardar</div>
+              <div style="background:#1e293b; border-radius:2px; padding:2px 5px; font-size:8px; color:#64748b; text-align:center; border:1px solid #334155;">Cancelar</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>A — Formulario inline</h3>
+      <p>El formulario aparece embebido al final del panel, debajo de las filas existentes. Sin modales, edición en contexto.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="b" onclick="toggleSelect(this)">
+    <div class="card-image" style="padding:10px; background:#0f172a; border-radius:6px; position:relative;">
+      <div style="display:flex; gap:6px; height:220px;">
+        <!-- Objects list dimmed -->
+        <div style="width:100px; background:#1e293b; border-radius:4px; padding:6px; flex-shrink:0; font-size:8px; color:#475569; opacity:0.4;">
+          <div>PC_9900…</div><div>SB_9900…</div>
+        </div>
+        <!-- Panel dimmed -->
+        <div style="flex:1; background:#1e293b; border-radius:4px; padding:6px; opacity:0.4; font-size:8px; color:#475569;">
+          PC_99002405011982<br/><br/>
+          99002405-G1 · 320,00<br/>
+          99002405-G2 · 290,00
+        </div>
+      </div>
+      <!-- Modal overlay -->
+      <div style="position:absolute; inset:0; display:flex; align-items:center; justify-content:center; z-index:10;">
+        <div style="background:#1e293b; border:1px solid #334155; border-radius:6px; padding:10px; width:200px; box-shadow: 0 20px 40px rgba(0,0,0,0.5);">
+          <div style="font-size:9px; color:#38bdf8; font-weight:bold; margin-bottom:6px;">Nueva fila · PC_99002405011982</div>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:3px; margin-bottom:6px;">
+            <div style="background:#0f172a; border-radius:2px; padding:2px 4px; font-size:8px; color:#64748b; border:1px solid #334155;">Código</div>
+            <div style="background:#0f172a; border-radius:2px; padding:2px 4px; font-size:8px; color:#64748b; border:1px solid #334155;">Desde</div>
+            <div style="background:#0f172a; border-radius:2px; padding:2px 4px; font-size:8px; color:#64748b; border:1px solid #334155;">Hasta</div>
+            <div style="background:#0f172a; border-radius:2px; padding:2px 4px; font-size:8px; color:#64748b; border:1px solid #334155;">Mensual €</div>
+            <div style="background:#0f172a; border-radius:2px; padding:2px 4px; font-size:8px; color:#64748b; border:1px solid #334155;">Diario €</div>
+            <div style="background:#0f172a; border-radius:2px; padding:2px 4px; font-size:8px; color:#64748b; border:1px solid #334155;">Por hora €</div>
+          </div>
+          <div style="display:flex; justify-content:flex-end; gap:3px;">
+            <div style="background:#1e293b; border-radius:2px; padding:2px 5px; font-size:8px; color:#64748b; border:1px solid #334155;">Cancelar</div>
+            <div style="background:#14532d; border-radius:2px; padding:2px 5px; font-size:8px; color:#86efac; border:1px solid #166534;">Guardar</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>B — Modal centrado</h3>
+      <p>Pulsar + o ✎ abre un diálogo modal sobre la pantalla. Más espacio para todos los campos (mensual, diario, horario). Patrón ya usado en el proyecto para otras acciones.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="c" onclick="toggleSelect(this)">
+    <div class="card-image" style="padding:10px; background:#0f172a; border-radius:6px;">
+      <div style="display:flex; gap:6px; height:220px;">
+        <!-- Objects list -->
+        <div style="width:100px; background:#1e293b; border-radius:4px; padding:6px; flex-shrink:0; font-size:8px; color:#64748b;">
+          <div style="color:#38bdf8; margin-bottom:3px;">PC_9900…</div>
+          <div>SB_9900…</div>
+        </div>
+        <!-- Row list -->
+        <div style="width:130px; background:#1e293b; border-radius:4px; padding:6px; font-size:8px; color:#64748b;">
+          <div style="font-size:9px; color:#38bdf8; font-weight:bold; margin-bottom:4px;">PC_99002405011982</div>
+          <div style="border-bottom:1px solid #334155; padding-bottom:2px; margin-bottom:2px;">99002405-G1</div>
+          <div style="border-bottom:1px solid #334155; padding-bottom:2px; margin-bottom:2px; color:#38bdf8;">99002405-G2 ▶</div>
+          <div style="border-bottom:1px solid #334155; padding-bottom:2px; margin-bottom:4px;">99002405-G3</div>
+          <div style="background:#0f172a; border-radius:2px; padding:2px 4px; text-align:center; border:1px dashed #334155;">+ Nueva</div>
+        </div>
+        <!-- Edit form panel -->
+        <div style="flex:1; background:#1e293b; border-radius:4px; padding:6px; border-left:1px solid #334155;">
+          <div style="font-size:8px; color:#64748b; text-transform:uppercase; margin-bottom:4px;">Editar fila</div>
+          <div style="display:flex; flex-direction:column; gap:3px;">
+            <div style="background:#0f172a; border-radius:2px; padding:2px 4px; font-size:8px; color:#94a3b8; border:1px solid #334155;">99002405-G2</div>
+            <div style="background:#0f172a; border-radius:2px; padding:2px 4px; font-size:8px; color:#64748b; border:1px solid #334155;">2024-01-01</div>
+            <div style="background:#0f172a; border-radius:2px; padding:2px 4px; font-size:8px; color:#64748b; border:1px solid #334155;">290,00</div>
+            <div style="background:#0f172a; border-radius:2px; padding:2px 4px; font-size:8px; color:#64748b; border:1px solid #334155;">3.480,00</div>
+          </div>
+          <div style="display:flex; gap:3px; margin-top:5px;">
+            <div style="flex:1; background:#14532d; border-radius:2px; padding:2px 5px; font-size:8px; color:#86efac; text-align:center; border:1px solid #166534;">Guardar</div>
+            <div style="background:#1e293b; border-radius:2px; padding:2px 5px; font-size:8px; color:#64748b; text-align:center; border:1px solid #334155;">✕</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>C — Tres columnas (lista → filas → form)</h3>
+      <p>Tres paneles en cascada: tablas → filas de la tabla → formulario de edición. Más espacio horizontal requerido, pero flujo muy claro.</p>
+    </div>
+  </div>
+
+</div>
+
+<p class="subtitle" style="margin-top:16px;">Selecciona y responde en el terminal.</p>

@@ -1,0 +1,119 @@
+<h2>¿Dónde vive el detalle de una tabla salarial?</h2>
+<p class="subtitle">Al hacer clic en "PC_99002405011982" en la lista de Objetos, ¿qué ocurre?</p>
+
+<div class="cards">
+
+  <div class="card" data-choice="a" onclick="toggleSelect(this)">
+    <div class="card-image" style="padding: 12px; background: #0f172a; border-radius: 6px;">
+      <div style="display:flex; gap:8px; height:220px;">
+        <!-- Left: table list -->
+        <div style="width:220px; background:#1e293b; border-radius:4px; padding:8px; flex-shrink:0;">
+          <div style="font-size:9px; color:#64748b; text-transform:uppercase; margin-bottom:6px;">Objetos · Tablas</div>
+          <div style="background:#0f172a; border-radius:3px; padding:5px 8px; margin-bottom:3px; font-size:10px; color:#94a3b8; border:1px solid #334155;">SB_99002405011982</div>
+          <div style="background:#1d4ed8; border-radius:3px; padding:5px 8px; margin-bottom:3px; font-size:10px; color:#fff; border:1px solid #2563eb;">PC_99002405011982 ▶</div>
+          <div style="background:#0f172a; border-radius:3px; padding:5px 8px; font-size:10px; color:#94a3b8; border:1px solid #334155;">...</div>
+        </div>
+        <!-- Right: rows panel -->
+        <div style="flex:1; background:#1e293b; border-radius:4px; padding:8px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+            <div style="font-size:10px; color:#38bdf8; font-weight:bold;">PC_99002405011982</div>
+            <div style="font-size:9px; background:#14532d; color:#86efac; border-radius:3px; padding:2px 6px; border:1px solid #166534;">+ Nueva fila</div>
+          </div>
+          <table style="width:100%; border-collapse:collapse; font-size:9px; color:#94a3b8;">
+            <thead><tr style="border-bottom:1px solid #334155;">
+              <th style="text-align:left;padding:3px 4px;">Código búsqueda</th>
+              <th style="text-align:left;padding:3px 4px;">Desde</th>
+              <th style="text-align:right;padding:3px 4px;">Mensual</th>
+              <th style="text-align:right;padding:3px 4px;">Anual</th>
+              <th style="padding:3px 4px;"></th>
+            </tr></thead>
+            <tbody>
+              <tr style="border-bottom:1px solid #1e293b;"><td style="padding:3px 4px;">99002405-G1</td><td style="padding:3px 4px;">2024-01-01</td><td style="padding:3px 4px;text-align:right;">320,00</td><td style="padding:3px 4px;text-align:right;">3.840,00</td><td style="padding:3px 4px; color:#475569; text-align:right;">✎ 🗑</td></tr>
+              <tr style="border-bottom:1px solid #1e293b;"><td style="padding:3px 4px;">99002405-G2</td><td style="padding:3px 4px;">2024-01-01</td><td style="padding:3px 4px;text-align:right;">290,00</td><td style="padding:3px 4px;text-align:right;">3.480,00</td><td style="padding:3px 4px; color:#475569; text-align:right;">✎ 🗑</td></tr>
+              <tr><td style="padding:3px 4px;">99002405-G3</td><td style="padding:3px 4px;">2024-01-01</td><td style="padding:3px 4px;text-align:right;">260,00</td><td style="padding:3px 4px;text-align:right;">3.120,00</td><td style="padding:3px 4px; color:#475569; text-align:right;">✎ 🗑</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>A — Panel lateral</h3>
+      <p>La lista de tablas queda a la izquierda; clicar una abre el detalle de filas a la derecha, en la misma página. Patrón ya usado en CanvasPage con ConceptDetailPanel.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="b" onclick="toggleSelect(this)">
+    <div class="card-image" style="padding: 12px; background: #0f172a; border-radius: 6px;">
+      <div style="height:220px; background:#1e293b; border-radius:4px; overflow:hidden; position:relative;">
+        <!-- Objects page dimmed -->
+        <div style="position:absolute; inset:0; background:#0f172a; opacity:0.6; z-index:1;"></div>
+        <!-- Drawer -->
+        <div style="position:absolute; right:0; top:0; bottom:0; width:75%; background:#1e293b; border-left:1px solid #334155; z-index:2; padding:10px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+            <div style="font-size:11px; color:#38bdf8; font-weight:bold;">PC_99002405011982</div>
+            <div style="display:flex; gap:6px; align-items:center;">
+              <div style="font-size:9px; background:#14532d; color:#86efac; border-radius:3px; padding:2px 6px; border:1px solid #166534;">+ Nueva fila</div>
+              <div style="font-size:11px; color:#64748b;">✕</div>
+            </div>
+          </div>
+          <table style="width:100%; border-collapse:collapse; font-size:9px; color:#94a3b8;">
+            <thead><tr style="border-bottom:1px solid #334155;">
+              <th style="text-align:left;padding:3px 4px;">Código búsqueda</th>
+              <th style="text-align:left;padding:3px 4px;">Desde</th>
+              <th style="text-align:right;padding:3px 4px;">Mensual</th>
+              <th style="text-align:right;padding:3px 4px;">Anual</th>
+            </tr></thead>
+            <tbody>
+              <tr style="border-bottom:1px solid #1e293b;"><td style="padding:3px 4px;">99002405-G1</td><td style="padding:3px 4px;">2024-01-01</td><td style="padding:3px 4px;text-align:right;">320,00</td><td style="padding:3px 4px;text-align:right;">3.840,00</td></tr>
+              <tr style="border-bottom:1px solid #1e293b;"><td style="padding:3px 4px;">99002405-G2</td><td style="padding:3px 4px;">2024-01-01</td><td style="padding:3px 4px;text-align:right;">290,00</td><td style="padding:3px 4px;text-align:right;">3.480,00</td></tr>
+              <tr><td style="padding:3px 4px;">99002405-G3</td><td style="padding:3px 4px;">2024-01-01</td><td style="padding:3px 4px;text-align:right;">260,00</td><td style="padding:3px 4px;text-align:right;">3.120,00</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>B — Drawer deslizante</h3>
+      <p>Clicar una tabla abre un drawer desde la derecha cubriendo parte de la página. La lista de objetos queda visible detrás. Fácil de cerrar y volver.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="c" onclick="toggleSelect(this)">
+    <div class="card-image" style="padding: 12px; background: #0f172a; border-radius: 6px;">
+      <div style="height:220px; background:#1e293b; border-radius:4px; overflow:hidden;">
+        <!-- Nav + breadcrumb -->
+        <div style="display:flex; align-items:center; gap:6px; padding:6px 8px; border-bottom:1px solid #334155; font-size:9px; color:#64748b;">
+          <span>Objetos</span><span>/</span><span style="color:#38bdf8;">PC_99002405011982</span>
+        </div>
+        <!-- Full page content -->
+        <div style="padding:8px;">
+          <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
+            <div style="font-size:11px; color:#38bdf8; font-weight:bold;">PC_99002405011982</div>
+            <div style="font-size:9px; background:#14532d; color:#86efac; border-radius:3px; padding:2px 6px; border:1px solid #166534;">+ Nueva fila</div>
+          </div>
+          <table style="width:100%; border-collapse:collapse; font-size:9px; color:#94a3b8;">
+            <thead><tr style="border-bottom:1px solid #334155;">
+              <th style="text-align:left;padding:3px 4px;">Código búsqueda</th>
+              <th style="text-align:left;padding:3px 4px;">Desde</th>
+              <th style="text-align:right;padding:3px 4px;">Mensual</th>
+              <th style="text-align:right;padding:3px 4px;">Anual</th>
+              <th style="padding:3px 4px;"></th>
+            </tr></thead>
+            <tbody>
+              <tr style="border-bottom:1px solid #1e293b;"><td style="padding:3px 4px;">99002405-G1</td><td style="padding:3px 4px;">2024-01-01</td><td style="padding:3px 4px;text-align:right;">320,00</td><td style="padding:3px 4px;text-align:right;">3.840,00</td><td style="padding:3px 4px; color:#475569; text-align:right;">✎ 🗑</td></tr>
+              <tr style="border-bottom:1px solid #1e293b;"><td style="padding:3px 4px;">99002405-G2</td><td style="padding:3px 4px;">2024-01-01</td><td style="padding:3px 4px;text-align:right;">290,00</td><td style="padding:3px 4px;text-align:right;">3.480,00</td><td style="padding:3px 4px; color:#475569; text-align:right;">✎ 🗑</td></tr>
+              <tr><td style="padding:3px 4px;">99002405-G3</td><td style="padding:3px 4px;">2024-01-01</td><td style="padding:3px 4px;text-align:right;">260,00</td><td style="padding:3px 4px;text-align:right;">3.120,00</td><td style="padding:3px 4px; color:#475569; text-align:right;">✎ 🗑</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>C — Página propia (/objects/tables/:tableCode)</h3>
+      <p>Clicar una tabla navega a su propia ruta con breadcrumb. Toda la pantalla disponible para las filas. Más espacio, pero pierde el contexto de la lista de objetos.</p>
+    </div>
+  </div>
+
+</div>
+
+<p class="subtitle" style="margin-top:16px;">Haz clic para seleccionar y dime qué prefieres en el terminal.</p>
