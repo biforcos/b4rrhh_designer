@@ -14,6 +14,8 @@ import { ConceptDetailPanel } from './ConceptDetailPanel'
 import { NATURE_LABELS, NATURE_COLORS } from './conceptLabels'
 import { useRuleSystemStore } from '../../ruleSystemStore'
 import { conceptsApi } from './api/conceptsApi'
+import { validateGraph } from './validateGraph'
+import type { GraphValidationResult } from './validateGraph'
 
 const nodeTypes = { concept: ConceptNode }
 const edgeTypes = { deletable: DeletableEdge }
@@ -33,7 +35,18 @@ export function CanvasPage() {
   const filterRef = useRef<HTMLDivElement>(null)
   const [summaryEditTarget, setSummaryEditTarget] = useState<string | null>(null)
   const [summaryDraft, setSummaryDraft] = useState('')
+  const [pendingSave, setPendingSave] = useState<{ nodes: typeof nodes; edges: typeof edges; validation: GraphValidationResult } | null>(null)
   const saveGraph = useSaveGraph(ruleSystemCode)
+
+  function handleSave() {
+    const visible = nodes.filter(n => !n.hidden)
+    const validation = validateGraph(visible, edges)
+    if (validation.errors.length > 0 || validation.warnings.length > 0) {
+      setPendingSave({ nodes: visible, edges, validation })
+    } else {
+      saveGraph.mutate({ nodes: visible, edges })
+    }
+  }
 
   const updateSummaryMutation = useMutation({
     mutationFn: ({ conceptCode, summary }: { conceptCode: string; summary: string | null }) =>
@@ -122,7 +135,7 @@ export function CanvasPage() {
           </button>
           <button
             type="button"
-            onClick={() => saveGraph.mutate({ nodes, edges })}
+            onClick={handleSave}
             disabled={saveGraph.isPending}
             className="text-xs px-3 py-1.5 bg-green-900 border border-green-700 text-green-300 rounded-md hover:bg-green-800 disabled:opacity-50"
           >
@@ -211,6 +224,67 @@ export function CanvasPage() {
           ruleSystemCode={ruleSystemCode}
           onDeleted={handleDeleted}
         />
+      )}
+
+      {pendingSave && (
+        <>
+          <div className="fixed inset-0 z-50 bg-black/60" onClick={() => setPendingSave(null)} />
+          <div className="fixed z-50 left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[420px] bg-slate-900 border border-slate-700 rounded-xl shadow-2xl p-4">
+            <p className="text-sm font-medium text-slate-200 mb-3">Validación del grafo</p>
+
+            {pendingSave.validation.errors.length > 0 && (
+              <div className="mb-3">
+                <p className="text-[10px] uppercase tracking-wide text-red-400 font-semibold mb-1.5">
+                  Errores — el grafo no se puede guardar
+                </p>
+                <ul className="space-y-1">
+                  {pendingSave.validation.errors.map((e, i) => (
+                    <li key={i} className="text-xs text-red-300 bg-red-950/40 border border-red-900 rounded px-2 py-1">
+                      {e}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            {pendingSave.validation.warnings.length > 0 && (
+              <div className="mb-3">
+                <p className="text-[10px] uppercase tracking-wide text-amber-400 font-semibold mb-1.5">
+                  Avisos
+                </p>
+                <ul className="space-y-1">
+                  {pendingSave.validation.warnings.map((w, i) => (
+                    <li key={i} className="text-xs text-amber-300 bg-amber-950/40 border border-amber-900 rounded px-2 py-1">
+                      {w}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            <div className="flex justify-end gap-2 mt-4">
+              <button
+                type="button"
+                onClick={() => setPendingSave(null)}
+                className="text-xs px-3 py-1.5 bg-slate-800 border border-slate-700 text-slate-300 rounded-md hover:bg-slate-700"
+              >
+                Cancelar
+              </button>
+              {pendingSave.validation.errors.length === 0 && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    saveGraph.mutate({ nodes: pendingSave.nodes, edges: pendingSave.edges })
+                    setPendingSave(null)
+                  }}
+                  className="text-xs px-3 py-1.5 bg-amber-800 border border-amber-700 text-amber-200 rounded-md hover:bg-amber-700"
+                >
+                  Guardar igualmente
+                </button>
+              )}
+            </div>
+          </div>
+        </>
       )}
 
       {summaryEditTarget && (
