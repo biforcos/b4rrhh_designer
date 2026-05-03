@@ -18,6 +18,7 @@ import { conceptsApi } from './api/conceptsApi'
 import { validateGraph } from './validateGraph'
 import type { GraphValidationResult } from './validateGraph'
 import { useGraphFocus } from './useGraphFocus'
+import { SearchPalette } from './SearchPalette'
 
 const nodeTypes = { concept: ConceptNode }
 const edgeTypes = { deletable: DeletableEdge }
@@ -88,6 +89,17 @@ export function CanvasPage() {
     return () => document.removeEventListener('pointerdown', onPointerDown)
   }, [filterOpen])
 
+  useEffect(() => {
+    function onKeyDown(e: KeyboardEvent) {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault()
+        setSearchOpen(true)
+      }
+    }
+    document.addEventListener('keydown', onKeyDown)
+    return () => document.removeEventListener('keydown', onKeyDown)
+  }, [])
+
   const onNodeDragStop = useCallback(() => {
     savePositions(ruleSystemCode, nodes)
   }, [ruleSystemCode, nodes])
@@ -105,6 +117,14 @@ export function CanvasPage() {
     setNodes(ns => ns.filter(n => n.id !== selectedNode!.id))
     setSelectedNode(null)
   }, [selectedNode, setNodes])
+
+  const handleSearchSelect = useCallback((nodeId: string) => {
+    const node = nodes.find(n => n.id === nodeId)
+    if (!node || !rfInstance) return
+    rfInstance.setCenter(node.position.x + 80, node.position.y + 40, { zoom: 1.5, duration: 500 })
+    setSelectedNode(node as ConceptFlowNode)
+    setSearchOpen(false)
+  }, [nodes, rfInstance])
 
   function toggleNature(nature: FunctionalNature) {
     setFilterNatures(prev => {
@@ -165,6 +185,20 @@ export function CanvasPage() {
             className="text-xs px-3 py-1.5 bg-green-900 border border-green-700 text-green-300 rounded-md hover:bg-green-800 disabled:opacity-50"
           >
             {saveGraph.isPending ? 'Guardando...' : '↑ Guardar'}
+          </button>
+          <button
+            type="button"
+            onClick={() => rfInstance?.fitView({ duration: 400, padding: 0.1 })}
+            className="text-xs px-3 py-1.5 bg-slate-800 border border-slate-700 text-slate-300 rounded-md hover:bg-slate-700"
+          >
+            ⊡ Fit
+          </button>
+          <button
+            type="button"
+            onClick={() => setSearchOpen(true)}
+            className="text-xs px-3 py-1.5 bg-slate-800 border border-slate-700 text-slate-300 rounded-md hover:bg-slate-700"
+          >
+            ⌕ Buscar
           </button>
 
           {/* Nature filter */}
@@ -351,6 +385,14 @@ export function CanvasPage() {
             </div>
           </div>
         </>
+      )}
+
+      {searchOpen && (
+        <SearchPalette
+          nodes={nodes.filter(n => !n.hidden)}
+          onSelect={handleSearchSelect}
+          onClose={() => setSearchOpen(false)}
+        />
       )}
     </div>
   )
