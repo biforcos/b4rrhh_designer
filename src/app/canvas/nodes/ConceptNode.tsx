@@ -2,12 +2,23 @@ import { Handle, Position, type NodeProps } from '@xyflow/react'
 import { type ConceptFlowNode, INPUT_PORTS, PORT_COLORS, PORT_LABEL_COLORS, TYPE_BADGE_COLORS } from '../types'
 
 export function ConceptNode({ data, selected }: NodeProps<ConceptFlowNode>) {
-  const inputPorts = INPUT_PORTS[data.calculationType]
+  const inputPorts = INPUT_PORTS[data.calculationType] ?? []
+
+  const borderClass = data.dimmed
+    ? 'border-slate-800'
+    : data.neighborHighlight
+    ? 'border-violet-500 shadow-lg shadow-violet-500/20'
+    : data.ancestorHighlight
+    ? 'border-indigo-600'
+    : selected
+    ? 'border-sky-500 shadow-lg shadow-sky-500/20'
+    : 'border-slate-700'
 
   return (
     <div className={`
-      min-w-[120px] rounded-lg border bg-slate-900 text-xs
-      ${selected ? 'border-sky-500 shadow-lg shadow-sky-500/20' : 'border-slate-700'}
+      min-w-[120px] rounded-lg border bg-slate-900 text-xs transition-opacity duration-200
+      ${data.dimmed ? 'opacity-[0.12] pointer-events-none' : 'opacity-100'}
+      ${borderClass}
       ${data.isDirty ? 'border-dashed' : ''}
     `}>
       {/* Header */}

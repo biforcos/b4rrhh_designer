@@ -70,4 +70,28 @@ describe('ConceptNode', () => {
     ))
     expect(screen.getByTitle('feed')).toBeInTheDocument()
   })
+
+  it('aplica opacidad baja cuando dimmed=true', () => {
+    const { container } = render(wrapInProvider(
+      <ConceptNode
+        id="d01"
+        data={{ ...BASE_DATA, conceptCode: 'D01', conceptMnemonic: 'DIAS', calculationType: 'ENGINE_PROVIDED', functionalNature: 'TECHNICAL', dimmed: true }}
+        selected={false} type="concept" dragging={false} draggable={true} selectable={true} deletable={true}
+        zIndex={0} isConnectable={true} positionAbsoluteX={0} positionAbsoluteY={0}
+      />
+    ))
+    expect(container.firstChild).toHaveClass('opacity-[0.12]')
+  })
+
+  it('aplica borde violeta cuando neighborHighlight=true', () => {
+    const { container } = render(wrapInProvider(
+      <ConceptNode
+        id="b01"
+        data={{ ...BASE_DATA, conceptCode: 'B01', conceptMnemonic: 'BASE', calculationType: 'AGGREGATE', functionalNature: 'BASE', neighborHighlight: true }}
+        selected={false} type="concept" dragging={false} draggable={true} selectable={true} deletable={true}
+        zIndex={0} isConnectable={true} positionAbsoluteX={0} positionAbsoluteY={0}
+      />
+    ))
+    expect(container.firstChild).toHaveClass('border-violet-500')
+  })
 })
