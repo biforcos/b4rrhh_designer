@@ -17,6 +17,9 @@ export interface ConceptNodeData extends Record<string, unknown> {
   summary: string | null
   isDirty?: boolean
   onEditSummary?: (conceptCode: string) => void
+  dimmed?: boolean
+  neighborHighlight?: boolean
+  ancestorHighlight?: boolean
 }
 
 export type ConceptFlowNode = Node<ConceptNodeData, 'concept'>
