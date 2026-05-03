@@ -9,7 +9,7 @@ import type { ConceptFlowNode, ConceptFlowEdge, FunctionalNature } from './types
 import { CreateConceptDrawer } from './CreateConceptDrawer'
 import { useSaveGraph } from './useSaveGraph'
 import { CanvasLegend } from './CanvasLegend'
-import { savePositions } from './graphPositions'
+import { savePositions, loadPositionsOrLayout } from './graphPositions'
 import { ConceptDetailPanel } from './ConceptDetailPanel'
 import { NATURE_LABELS, NATURE_COLORS } from './conceptLabels'
 import { useRuleSystemStore } from '../../ruleSystemStore'
@@ -65,10 +65,10 @@ export function CanvasPage() {
 
   useEffect(() => {
     if (data) {
-      setNodes(data.nodes)
+      setNodes(loadPositionsOrLayout(ruleSystemCode, data.nodes, data.edges))
       setEdges(data.edges)
     }
-  }, [data, setNodes, setEdges])
+  }, [data, setNodes, setEdges, ruleSystemCode])
 
   // Close filter dropdown when clicking outside
   useEffect(() => {
