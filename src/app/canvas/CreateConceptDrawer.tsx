@@ -69,7 +69,7 @@ export function CreateConceptDrawer({ open, onClose, ruleSystemCode }: Props) {
                 <SelectValue />
               </SelectTrigger>
               <SelectContent className="bg-slate-900 border-slate-700">
-                {(['DIRECT_AMOUNT', 'RATE_BY_QUANTITY', 'PERCENTAGE', 'AGGREGATE', 'JAVA_PROVIDED', 'EMPLOYEE_INPUT'] as const).map(t => (
+                {(['DIRECT_AMOUNT', 'RATE_BY_QUANTITY', 'PERCENTAGE', 'AGGREGATE', 'GREATEST', 'LEAST', 'ENGINE_PROVIDED', 'EMPLOYEE_INPUT'] as const).map(t => (
                   <SelectItem key={t} value={t} className="text-slate-200">{t}</SelectItem>
                 ))}
               </SelectContent>

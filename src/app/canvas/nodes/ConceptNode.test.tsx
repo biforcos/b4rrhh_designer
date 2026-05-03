@@ -47,11 +47,11 @@ describe('ConceptNode', () => {
     expect(screen.getByTitle('rate')).toBeInTheDocument()
   })
 
-  it('no muestra puertos de entrada para JAVA_PROVIDED', () => {
+  it('no muestra puertos de entrada para ENGINE_PROVIDED', () => {
     render(wrapInProvider(
       <ConceptNode
         id="d01"
-        data={{ ...BASE_DATA, conceptCode: 'D01', conceptMnemonic: 'DIAS', calculationType: 'JAVA_PROVIDED', functionalNature: 'TECHNICAL' }}
+        data={{ ...BASE_DATA, conceptCode: 'D01', conceptMnemonic: 'DIAS', calculationType: 'ENGINE_PROVIDED', functionalNature: 'TECHNICAL' }}
         selected={false} type="concept" dragging={false} draggable={true} selectable={true} deletable={true}
         zIndex={0} isConnectable={true} positionAbsoluteX={0} positionAbsoluteY={0}
       />

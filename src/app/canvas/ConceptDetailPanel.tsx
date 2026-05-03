@@ -19,7 +19,7 @@ interface Props {
 }
 
 const FIELD_TOOLTIPS = {
-  calculationType: 'Define cómo se calcula el valor del concepto. DIRECT_AMOUNT: toma el valor de una fuente única (tabla, constante u otro concepto). RATE_BY_QUANTITY: multiplica cantidad × tasa. AGGREGATE: suma varios conceptos. PERCENTAGE: aplica un porcentaje sobre una base. EMPLOYEE_INPUT: valor introducido manualmente por nóminas. JAVA_PROVIDED: calculado por un componente técnico del motor.',
+  calculationType: 'Define cómo se calcula el valor del concepto. DIRECT_AMOUNT: toma el valor de una fuente única (tabla, constante u otro concepto). RATE_BY_QUANTITY: multiplica cantidad × tasa. AGGREGATE: suma varios conceptos. PERCENTAGE: aplica un porcentaje sobre una base. EMPLOYEE_INPUT: valor introducido manualmente por nóminas. ENGINE_PROVIDED: calculado por un componente técnico del motor.',
   functionalNature: 'Papel que juega el concepto en la nómina. Los devengos suman al bruto; las deducciones restan; las bases son valores de referencia; los totales y el líquido son conceptos derivados de cierre.',
   resultCompositionMode: 'Cómo se combina el resultado cuando hay múltiples tramos de jornada en el período. REPLACE conserva el valor del último tramo (útil para tasas o porcentajes); ACCUMULATE suma el valor de todos los tramos (útil para importes proporcionales a días).',
   executionScope: 'Momento de evaluación dentro del ciclo de cálculo. SEGMENTO: el concepto se evalúa una vez por cada tramo de jornada laboral del período. PERÍODO: se evalúa una única vez para todo el período, independientemente del número de tramos.',

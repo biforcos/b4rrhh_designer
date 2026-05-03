@@ -105,8 +105,8 @@ describe('validateGraph', () => {
     expect(result.errors).toHaveLength(0)
   })
 
-  it('accepts DIRECT_AMOUNT and JAVA_PROVIDED with no edges', () => {
-    const nodes = [node('A', 'DIRECT_AMOUNT'), node('B', 'JAVA_PROVIDED'), node('C', 'EMPLOYEE_INPUT')]
+  it('accepts DIRECT_AMOUNT and ENGINE_PROVIDED with no edges', () => {
+    const nodes = [node('A', 'DIRECT_AMOUNT'), node('B', 'ENGINE_PROVIDED'), node('C', 'EMPLOYEE_INPUT')]
     const result = validateGraph(nodes, [])
     expect(result.errors).toHaveLength(0)
     expect(result.warnings).toHaveLength(0)

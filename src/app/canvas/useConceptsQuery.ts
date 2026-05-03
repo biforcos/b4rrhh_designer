@@ -20,6 +20,8 @@ const ROLE_TO_HANDLE: Record<string, string> = {
   RATE:       'rate',
   BASE:       'base',
   PERCENTAGE: 'pct',
+  LEFT:       'left',
+  RIGHT:      'right',
   // tolerate values saved before this mapping was in place
   QTY:        'qty',
   PCT:        'pct',

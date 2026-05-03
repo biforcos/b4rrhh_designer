@@ -4,10 +4,14 @@ import type { CalculationType } from './types'
 
 const TYPE_LABELS: Record<CalculationType, string> = {
   DIRECT_AMOUNT:    'DIRECT AMOUNT',
-  JAVA_PROVIDED:    'JAVA PROVIDED',
+  JAVA_PROVIDED:    'ENGINE PROVIDED',
+  ENGINE_PROVIDED:  'ENGINE PROVIDED',
+  EMPLOYEE_INPUT:   'EMPLOYEE INPUT',
   RATE_BY_QUANTITY: 'RATE×QTY',
   PERCENTAGE:       'PERCENTAGE',
   AGGREGATE:        'AGGREGATE',
+  GREATEST:         'GREATEST',
+  LEAST:            'LEAST',
 }
 
 const PORTS = ['qty', 'rate', 'base', 'pct', 'feed', 'out'] as const
