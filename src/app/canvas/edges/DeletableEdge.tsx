@@ -1,14 +1,17 @@
+import { useState } from 'react'
 import { BaseEdge, EdgeLabelRenderer, getBezierPath, useReactFlow, type EdgeProps } from '@xyflow/react'
 
 export function DeletableEdge({
   id,
   sourceX, sourceY, targetX, targetY,
   sourcePosition, targetPosition,
+  targetHandle,
   style,
   markerEnd,
   selected,
 }: EdgeProps) {
   const { setEdges } = useReactFlow()
+  const [hovered, setHovered] = useState(false)
   const [edgePath, labelX, labelY] = getBezierPath({
     sourceX, sourceY, sourcePosition,
     targetX, targetY, targetPosition,
@@ -16,10 +19,23 @@ export function DeletableEdge({
 
   return (
     <>
+      {/* Wide transparent hit area for hover detection */}
+      <path
+        d={edgePath}
+        stroke="transparent"
+        strokeWidth={12}
+        fill="none"
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
+      />
       <BaseEdge
         path={edgePath}
         markerEnd={markerEnd}
-        style={{ ...style, strokeWidth: selected ? 2 : (style?.strokeWidth ?? 1.5) }}
+        style={{
+          ...style,
+          stroke: hovered && !selected ? '#a78bfa' : style?.stroke,
+          strokeWidth: selected ? 2 : hovered ? 2 : (style?.strokeWidth ?? 1.5),
+        }}
       />
       <EdgeLabelRenderer>
         {selected && (
@@ -36,6 +52,18 @@ export function DeletableEdge({
           >
             ×
           </button>
+        )}
+        {hovered && targetHandle && (
+          <div
+            style={{
+              position: 'absolute',
+              transform: `translate(-50%, -50%) translate(${labelX}px, ${labelY - 14}px)`,
+              pointerEvents: 'none',
+            }}
+            className="bg-slate-700 border border-slate-500 text-slate-200 text-[8px] font-mono px-1.5 py-0.5 rounded whitespace-nowrap"
+          >
+            → {targetHandle}
+          </div>
         )}
       </EdgeLabelRenderer>
     </>
