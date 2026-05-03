@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { ReactFlow, Background, MiniMap, Controls, Panel, addEdge, useNodesState, useEdgesState, type Connection } from '@xyflow/react'
+import type { ReactFlowInstance } from '@xyflow/react'
 import '@xyflow/react/dist/style.css'
 import { ConceptNode } from './nodes/ConceptNode'
 import { DeletableEdge } from './edges/DeletableEdge'
@@ -16,6 +17,7 @@ import { useRuleSystemStore } from '../../ruleSystemStore'
 import { conceptsApi } from './api/conceptsApi'
 import { validateGraph } from './validateGraph'
 import type { GraphValidationResult } from './validateGraph'
+import { useGraphFocus } from './useGraphFocus'
 
 const nodeTypes = { concept: ConceptNode }
 const edgeTypes = { deletable: DeletableEdge }
@@ -33,6 +35,10 @@ export function CanvasPage() {
   const [filterOpen, setFilterOpen] = useState(false)
   const [filterNatures, setFilterNatures] = useState<Set<FunctionalNature>>(new Set())
   const filterRef = useRef<HTMLDivElement>(null)
+  const [rfInstance, setRfInstance] = useState<ReactFlowInstance | null>(null)
+  const [searchOpen, setSearchOpen] = useState(false)
+  const { focusedNodeIds, neighborNodeIds, ancestorNodeIds, focusedEdgeIds, ancestorEdgeIds } =
+    useGraphFocus(selectedNode?.id ?? null, edges)
   const [summaryEditTarget, setSummaryEditTarget] = useState<string | null>(null)
   const [summaryDraft, setSummaryDraft] = useState('')
   const [pendingSave, setPendingSave] = useState<{ nodes: typeof nodes; edges: typeof edges; validation: GraphValidationResult } | null>(null)
@@ -110,14 +116,33 @@ export function CanvasPage() {
   }
 
   const displayNodes = useMemo(() => {
-    const withCallbacks = nodes.map(n => ({
+    const withState = nodes.map(n => ({
       ...n,
-      data: { ...n.data, onEditSummary: handleEditSummary },
+      data: {
+        ...n.data,
+        onEditSummary: handleEditSummary,
+        dimmed: selectedNode != null && !focusedNodeIds.has(n.id),
+        neighborHighlight: selectedNode != null && neighborNodeIds.has(n.id),
+        ancestorHighlight: selectedNode != null && ancestorNodeIds.has(n.id) && !neighborNodeIds.has(n.id),
+      },
     }))
     return filterNatures.size === 0
-      ? withCallbacks
-      : withCallbacks.map(n => ({ ...n, hidden: !filterNatures.has(n.data.functionalNature) }))
-  }, [nodes, filterNatures, handleEditSummary])
+      ? withState
+      : withState.map(n => ({ ...n, hidden: !filterNatures.has(n.data.functionalNature) }))
+  }, [nodes, filterNatures, handleEditSummary, selectedNode, focusedNodeIds, neighborNodeIds, ancestorNodeIds])
+
+  const displayEdges = useMemo(() => {
+    if (!selectedNode) return edges
+    return edges.map(e => {
+      if (focusedEdgeIds.has(e.id)) {
+        return { ...e, style: { ...e.style, stroke: '#a78bfa', strokeWidth: 2, opacity: 1 } }
+      }
+      if (ancestorEdgeIds.has(e.id)) {
+        return { ...e, style: { ...e.style, stroke: '#6366f1', strokeWidth: 1.5, opacity: 0.6 } }
+      }
+      return { ...e, style: { ...e.style, opacity: 0.08 } }
+    })
+  }, [edges, selectedNode, focusedEdgeIds, ancestorEdgeIds])
 
   if (isLoading) return <div className="flex items-center justify-center h-full text-slate-500">Cargando grafo...</div>
 
@@ -191,12 +216,14 @@ export function CanvasPage() {
 
         <ReactFlow
           nodes={displayNodes}
-          edges={edges}
+          edges={displayEdges}
           onNodesChange={onNodesChange}
           onEdgesChange={onEdgesChange}
           onConnect={onConnect}
           onNodeClick={(_, node) => { if (node.type === 'concept') setSelectedNode(node as ConceptFlowNode) }}
           onNodeDragStop={onNodeDragStop}
+          onPaneClick={() => setSelectedNode(null)}
+          onInit={setRfInstance}
           nodeTypes={nodeTypes}
           edgeTypes={edgeTypes}
           fitView
