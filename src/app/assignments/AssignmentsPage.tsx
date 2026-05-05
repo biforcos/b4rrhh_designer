@@ -12,7 +12,7 @@ export function AssignmentsPage() {
   const [editTarget, setEditTarget] = useState<AssignmentDto | null>(null)
   const [deleteTarget, setDeleteTarget] = useState<AssignmentDto | null>(null)
 
-  const { data = [], isLoading } = useQuery({
+  const { data = [], isLoading, isError, error } = useQuery({
     queryKey: ['assignments', ruleSystemCode],
     queryFn: () => assignmentsApi.list(ruleSystemCode),
   })
@@ -40,6 +40,10 @@ export function AssignmentsPage() {
 
       {isLoading ? (
         <div className="text-slate-500 text-sm">Cargando...</div>
+      ) : isError ? (
+        <div className="text-red-400 text-sm font-mono">
+          Error al cargar asignaciones: {error instanceof Error ? error.message : 'Error desconocido'}
+        </div>
       ) : (
         <table className="w-full text-xs text-slate-300 border-collapse">
           <thead>
